@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>mytilda</title>
+    <meta charset="UTF-8" />
+    <title>Site Constructor</title>
+    <link rel="stylesheet" href="./src/style.css" />
 </head>
 <body>
-<div id="app"></div>
-<script src="./src/main.js" type="module"></script>
+<div id="app">
+    <h1>Мой конструктор сайтов (пример)</h1>
+    <div class="panel">
+        <section class="pages-section">
+            <h2>Страницы</h2>
+            <div class="page-list" id="pageList"></div>
+            <div class="add-page-form">
+                <input type="text" id="newPageTitle" placeholder="Название страницы" />
+                <button id="createPageBtn">Создать страницу</button>
+            </div>
+        </section>
+
+        <section class="sections-section">
+            <h2>Секции (для выбранной страницы)</h2>
+            <div id="currentPage" class="current-page">Нет выбранной страницы</div>
+            <div class="sections-list" id="sectionsList"></div>
+
+            <!-- Форма для добавления новой секции -->
+            <div class="add-section-form">
+                <input type="text" id="sectionType" placeholder="Тип секции (заголовок, текст, картинка...)" />
+                <input type="text" id="sectionContent" placeholder="Содержимое секции" />
+                <button id="addSectionBtn">Добавить секцию</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="publish-block">
+        <button id="publishBtn">Публикация</button>
+        <textarea id="publishResult" readonly></textarea>
+    </div>
+</div>
+<script type="module" src="./src/main.js"></script>
 </body>
 </html>
