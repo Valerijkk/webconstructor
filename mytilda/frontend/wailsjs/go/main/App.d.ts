@@ -10,10 +10,46 @@ export function DeletePage(arg1:string):Promise<boolean>;
 
 export function DeleteSection(arg1:string,arg2:string):Promise<boolean>;
 
-export function ListPages():Promise<Array<main.Page>>;
+export function GetImageBase64(arg1:string):Promise<string>;
+
+export function ImportHtmlFileAsNewPage(arg1:string,arg2:string,arg3:string):Promise<string>;
+
+export function ListHtmlFiles(arg1:string):Promise<Array<string>>;
+
+export function ListPages():Promise<Array<main.ExtendedPage>>;
 
 export function ListSections(arg1:string):Promise<Array<main.Section>>;
 
-export function PublishSite():Promise<string>;
+export function PublishAll():Promise<{[key: string]: string}>;
+
+export function ReadFileContent(arg1:string,arg2:string):Promise<string>;
+
+export function SaveSite(arg1:string):Promise<void>;
+
+export function SetArticle(arg1:string,arg2:string):Promise<void>;
+
+export function SetAside(arg1:string,arg2:string):Promise<void>;
+
+export function SetCSS(arg1:string,arg2:string):Promise<void>;
+
+export function SetContact(arg1:string,arg2:string):Promise<void>;
+
+export function SetCopyright(arg1:string,arg2:string):Promise<void>;
+
+export function SetFooter(arg1:string,arg2:string):Promise<void>;
+
+export function SetLogo(arg1:string,arg2:string):Promise<void>;
+
+export function SetMain(arg1:string,arg2:string):Promise<void>;
+
+export function SetMeta(arg1:string,arg2:string):Promise<void>;
+
+export function SetNav(arg1:string,arg2:string):Promise<void>;
+
+export function SetScripts(arg1:string,arg2:string):Promise<void>;
+
+export function SetSocial(arg1:string,arg2:string):Promise<void>;
 
 export function UpdateSection(arg1:string,arg2:string,arg3:string,arg4:string):Promise<boolean>;
+
+export function UploadImage(arg1:string,arg2:string):Promise<string>;

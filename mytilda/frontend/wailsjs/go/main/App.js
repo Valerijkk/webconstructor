@@ -18,6 +18,18 @@ export function DeleteSection(arg1, arg2) {
   return window['go']['main']['App']['DeleteSection'](arg1, arg2);
 }
 
+export function GetImageBase64(arg1) {
+  return window['go']['main']['App']['GetImageBase64'](arg1);
+}
+
+export function ImportHtmlFileAsNewPage(arg1, arg2, arg3) {
+  return window['go']['main']['App']['ImportHtmlFileAsNewPage'](arg1, arg2, arg3);
+}
+
+export function ListHtmlFiles(arg1) {
+  return window['go']['main']['App']['ListHtmlFiles'](arg1);
+}
+
 export function ListPages() {
   return window['go']['main']['App']['ListPages']();
 }
@@ -26,10 +38,70 @@ export function ListSections(arg1) {
   return window['go']['main']['App']['ListSections'](arg1);
 }
 
-export function PublishSite() {
-  return window['go']['main']['App']['PublishSite']();
+export function PublishAll() {
+  return window['go']['main']['App']['PublishAll']();
+}
+
+export function ReadFileContent(arg1, arg2) {
+  return window['go']['main']['App']['ReadFileContent'](arg1, arg2);
+}
+
+export function SaveSite(arg1) {
+  return window['go']['main']['App']['SaveSite'](arg1);
+}
+
+export function SetArticle(arg1, arg2) {
+  return window['go']['main']['App']['SetArticle'](arg1, arg2);
+}
+
+export function SetAside(arg1, arg2) {
+  return window['go']['main']['App']['SetAside'](arg1, arg2);
+}
+
+export function SetCSS(arg1, arg2) {
+  return window['go']['main']['App']['SetCSS'](arg1, arg2);
+}
+
+export function SetContact(arg1, arg2) {
+  return window['go']['main']['App']['SetContact'](arg1, arg2);
+}
+
+export function SetCopyright(arg1, arg2) {
+  return window['go']['main']['App']['SetCopyright'](arg1, arg2);
+}
+
+export function SetFooter(arg1, arg2) {
+  return window['go']['main']['App']['SetFooter'](arg1, arg2);
+}
+
+export function SetLogo(arg1, arg2) {
+  return window['go']['main']['App']['SetLogo'](arg1, arg2);
+}
+
+export function SetMain(arg1, arg2) {
+  return window['go']['main']['App']['SetMain'](arg1, arg2);
+}
+
+export function SetMeta(arg1, arg2) {
+  return window['go']['main']['App']['SetMeta'](arg1, arg2);
+}
+
+export function SetNav(arg1, arg2) {
+  return window['go']['main']['App']['SetNav'](arg1, arg2);
+}
+
+export function SetScripts(arg1, arg2) {
+  return window['go']['main']['App']['SetScripts'](arg1, arg2);
+}
+
+export function SetSocial(arg1, arg2) {
+  return window['go']['main']['App']['SetSocial'](arg1, arg2);
 }
 
 export function UpdateSection(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['UpdateSection'](arg1, arg2, arg3, arg4);
+}
+
+export function UploadImage(arg1, arg2) {
+  return window['go']['main']['App']['UploadImage'](arg1, arg2);
 }

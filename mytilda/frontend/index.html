@@ -1,42 +1,168 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Site Constructor</title>
-    <link rel="stylesheet" href="./src/style.css" />
+    <title>Главная</title>
+    <!-- Tailwind CDN -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
+    />
+    <!-- Подключаем style.css -->
+    <link rel="stylesheet" href="./style.css" />
 </head>
-<body>
-<div id="app">
-    <h1>Мой конструктор сайтов (пример)</h1>
-    <div class="panel">
-        <section class="pages-section">
-            <h2>Страницы</h2>
-            <div class="page-list" id="pageList"></div>
-            <div class="add-page-form">
-                <input type="text" id="newPageTitle" placeholder="Название страницы" />
-                <button id="createPageBtn">Создать страницу</button>
+
+<body class="bg-gray-200">
+<!-- Ваш Tailwind-код, адаптированный под условие: Кликаем на логотип -> Переходим на page2.html -->
+<div class="bg-gray-200 h-full w-screen"></div>
+
+<div class="fixed inset-0">
+    <nav class="fixed inset-0 z-10 h-10 bg-gray-900 opacity-100 hover:opacity-100">
+        <div class="mx-10 flex justify-between items-center">
+            <!-- ССЫЛКА НА page2.html -->
+            <a
+                    href="./page2.html"
+                    class="text-gray-200 text-2xl font-bold"
+            >
+                логотип
+            </a>
+
+            <div class="space-x-5">
+                <button class="text-gray-400 hover:text-gray-200 opacity-0 focus:opacity-100">
+                    загрузить
+                    <div>
+                        <div class="fixed inset-0 m-auto w-48 h-48 bg-black"></div>
+                    </div>
+                </button>
+                <button class="text-gray-400 hover:text-gray-200">
+                    сохранить
+                </button>
+                <button class="text-gray-400 hover:text-gray-200">
+                    новый проект
+                </button>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <section class="sections-section">
-            <h2>Секции (для выбранной страницы)</h2>
-            <div id="currentPage" class="current-page">Нет выбранной страницы</div>
-            <div class="sections-list" id="sectionsList"></div>
+    <nav
+            class="fixed inset-y-0 left-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100"
+    >
+        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">
+            шаблоны элементов
+        </div>
+        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
 
-            <!-- Форма для добавления новой секции -->
-            <div class="add-section-form">
-                <input type="text" id="sectionType" placeholder="Тип секции (заголовок, текст, картинка...)" />
-                <input type="text" id="sectionContent" placeholder="Содержимое секции" />
-                <button id="addSectionBtn">Добавить секцию</button>
+        <div class="mx-2 h-12 flex justify-center items-center">
+            <button
+                    class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
+            >
+                <img
+                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                        class="-mx-8 w-10 h-5"
+                />
+                slider
+            </button>
+        </div>
+
+        <div class="mx-2 h-12 flex justify-center items-center">
+            <button
+                    class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
+            >
+                <img
+                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                        class="-mx-8 w-10 h-5"
+                />
+                slider
+            </button>
+        </div>
+    </nav>
+
+    <nav
+            class="fixed inset-y-0 right-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100"
+    >
+        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">
+            иерархия элементов
+        </div>
+        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
+
+        <div class="mx-2 mt-1 h-2/5 flex justify-center">
+            <div
+                    class="bg-gray-900 rounded bg-opacity-60 h-full w-48 text-gray-400 hover:text-gray-200 flex justify-around overflow-auto shadow-2xl"
+            >
+                <nav>
+                    <div class="h-7 flex justify-center items-center">
+                        <div
+                                class="bg-gray-700 bg-opacity-95 rounded h-6 w-40 text-sm text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
+                        >
+                            <img
+                                    src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                                    class="-mx-8 w-8 h-4"
+                            />
+                            slider
+                        </div>
+                    </div>
+
+                    <div class="h-7 flex justify-center items-center">
+                        <div
+                                class="bg-gray-700 bg-opacity-95 rounded h-6 w-40 text-sm text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
+                        >
+                            <img
+                                    src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                                    class="-mx-8 w-8 h-4"
+                            />
+                            slider
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </section>
-    </div>
+        </div>
 
-    <div class="publish-block">
-        <button id="publishBtn">Публикация</button>
-        <textarea id="publishResult" readonly></textarea>
-    </div>
+        <div class="mx-2 h-10 text-gray-300 flex justify-center items-center">
+            css редактор
+        </div>
+        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
+
+        <div class="mx-2 mt-1 h-2/5 flex justify-center">
+            <div
+                    class="bg-gray-900 rounded bg-opacity-60 h-full w-48 text-gray-400 flex overflow-auto shadow-2xl"
+            >
+                <nav>
+                    <div
+                            class="bg-opacity-95 rounded h-6 w-full text-sm text-gray-400 flex justify-between items-center"
+                    >
+                        <div class="flex items-center">
+                            <button class="mx-1 mr-2">
+                                <img
+                                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                                        class="w-4 h-4"
+                                />
+                            </button>
+                            slider
+                        </div>
+                        <input class="bg-gray-900 w-1/2 h-4 mr-1" />
+                    </div>
+
+                    <div
+                            class="bg-opacity-95 rounded h-6 w-full text-sm text-gray-400 flex justify-between items-center"
+                    >
+                        <div class="flex items-center">
+                            <button class="mx-1 mr-2">
+                                <img
+                                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
+                                        class="w-4 h-4"
+                                />
+                            </button>
+                            slider
+                        </div>
+                        <input class="bg-gray-900 w-1/2 h-4 mr-1" />
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </nav>
 </div>
-<script type="module" src="./src/main.js"></script>
+
+<!-- Подключаем JS конструктора -->
+<script src="./main.js"></script>
 </body>
 </html>
