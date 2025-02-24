@@ -22,14 +22,6 @@ export function GetImageBase64(arg1) {
   return window['go']['main']['App']['GetImageBase64'](arg1);
 }
 
-export function ImportHtmlFileAsNewPage(arg1, arg2, arg3) {
-  return window['go']['main']['App']['ImportHtmlFileAsNewPage'](arg1, arg2, arg3);
-}
-
-export function ListHtmlFiles(arg1) {
-  return window['go']['main']['App']['ListHtmlFiles'](arg1);
-}
-
 export function ListPages() {
   return window['go']['main']['App']['ListPages']();
 }
@@ -40,10 +32,6 @@ export function ListSections(arg1) {
 
 export function PublishAll() {
   return window['go']['main']['App']['PublishAll']();
-}
-
-export function ReadFileContent(arg1, arg2) {
-  return window['go']['main']['App']['ReadFileContent'](arg1, arg2);
 }
 
 export function SaveSite(arg1) {

@@ -4,7 +4,6 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,11 +13,8 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
-
-	"golang.org/x/net/html"
 )
 
-//go:embed frontend/dist/*
 var assets embed.FS
 
 // ---------- Структуры ----------
@@ -30,7 +26,7 @@ type Section struct {
 	Content     string `json:"content"`
 }
 
-// ExtendedPage — полная «Tilda-страница».
+// ExtendedPage — полная «Tilda-страница» с элементами.
 type ExtendedPage struct {
 	ID string `json:"id"`
 
@@ -52,7 +48,7 @@ type ExtendedPage struct {
 	Sections []Section `json:"sections"`
 }
 
-// App — наше приложение.
+// App — главное приложение.
 type App struct {
 	Pages  map[string]*ExtendedPage
 	Images map[string]string
@@ -107,6 +103,7 @@ func (a *App) getPage(pageID string) (*ExtendedPage, error) {
 
 // ---------- Установка полей ----------
 
+// Установка мета-данных, CSS, скриптов, и другие поля.
 func (a *App) SetMeta(pageID, meta string) error {
 	p, err := a.getPage(pageID)
 	if err != nil {
@@ -351,9 +348,7 @@ func (a *App) generateHTML(p *ExtendedPage) string {
 	for _, s := range p.Sections {
 		if s.SectionType == "image" {
 			if base64img, ok := a.Images[s.Content]; ok {
-				sb.WriteString(`<section class="image-section"><img src="data:image/*;base64,`)
-				sb.WriteString(base64img)
-				sb.WriteString(`" alt="image-section"/></section>`)
+				sb.WriteString(`<section class="image-section"><img src="data:image/*;base64,` + base64img + `" alt="image-section"/></section>`)
 			} else {
 				sb.WriteString("<section>[Image not found]</section>")
 			}
@@ -383,205 +378,7 @@ func (a *App) generateHTML(p *ExtendedPage) string {
 	return sb.String()
 }
 
-// ---------- Импорт HTML-файлов ----------
-
-func (a *App) ListHtmlFiles(dirPath string) ([]string, error) {
-	entries, err := ioutil.ReadDir(dirPath)
-	if err != nil {
-		return nil, fmt.Errorf("не могу прочитать %s: %w", dirPath, err)
-	}
-	var res []string
-	for _, e := range entries {
-		if e.IsDir() {
-			continue
-		}
-		name := e.Name()
-		if strings.HasSuffix(strings.ToLower(name), ".html") {
-			res = append(res, name)
-		}
-	}
-	return res, nil
-}
-
-func (a *App) ReadFileContent(dirPath, filename string) (string, error) {
-	fullPath := filepath.Join(dirPath, filename)
-	bytes, err := os.ReadFile(fullPath)
-	if err != nil {
-		return "", fmt.Errorf("ошибка чтения %s: %w", fullPath, err)
-	}
-	return string(bytes), nil
-}
-
-func (a *App) ImportHtmlFileAsNewPage(dirPath, filename, pageTitle string) (string, error) {
-	htmlStr, err := a.ReadFileContent(dirPath, filename)
-	if err != nil {
-		return "", err
-	}
-	pageID, err := a.CreatePage(pageTitle)
-	if err != nil {
-		return "", err
-	}
-	p, _ := a.getPage(pageID)
-
-	root, err := html.Parse(strings.NewReader(htmlStr))
-	if err != nil {
-		return "", fmt.Errorf("ошибка парсинга HTML: %w", err)
-	}
-
-	var f func(*html.Node)
-	f = func(n *html.Node) {
-		if n.Type == html.ElementNode {
-			switch strings.ToLower(n.Data) {
-			case "title":
-				p.Title = getTextContent(n)
-			case "meta", "link":
-				p.Meta += renderNode(n) + "\n"
-			case "style":
-				p.CSS += getTextContent(n) + "\n"
-			case "script":
-				if !hasAttr(n, "src") {
-					p.Scripts += getTextContent(n) + "\n"
-				}
-			case "header":
-				logo, nav := parseHeader(n)
-				if logo != "" {
-					p.Logo = logo
-				}
-				if nav != "" {
-					p.Nav = nav
-				}
-			case "main":
-				p.Main += innerHTML(n)
-			case "article":
-				p.Article += innerHTML(n)
-			case "aside":
-				p.Aside += innerHTML(n)
-			case "footer":
-				ft, ct, sc, cp := parseFooter(n)
-				p.Footer += ft
-				p.Contact += ct
-				p.Social += sc
-				p.Copyright += cp
-			case "section":
-				secID := uuid.New().String()
-				content := innerHTML(n)
-				p.Sections = append(p.Sections, Section{
-					ID:          secID,
-					SectionType: "imported-section",
-					Content:     content,
-				})
-			}
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	f(root)
-
-	return pageID, nil
-}
-
-func parseHeader(n *html.Node) (logoBase64 string, navHtml string) {
-	var f func(*html.Node)
-	f = func(x *html.Node) {
-		if x.Type == html.ElementNode {
-			switch strings.ToLower(x.Data) {
-			case "img":
-				src := getAttr(x, "src")
-				if strings.HasPrefix(src, "data:image") {
-					parts := strings.SplitN(src, "base64,", 2)
-					if len(parts) == 2 {
-						logoBase64 = parts[1]
-					}
-				}
-			case "nav":
-				navHtml += renderNode(x)
-			}
-		}
-		for c := x.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		f(c)
-	}
-	return
-}
-
-func parseFooter(n *html.Node) (footerHtml, contactHtml, socialHtml, copyrightHtml string) {
-	footerHtml = innerHTML(n)
-	var f func(*html.Node)
-	f = func(x *html.Node) {
-		if x.Type == html.ElementNode && strings.ToLower(x.Data) == "div" {
-			class := getAttr(x, "class")
-			switch {
-			case strings.Contains(class, "contact-block"):
-				contactHtml += innerHTML(x)
-			case strings.Contains(class, "social-block"):
-				socialHtml += innerHTML(x)
-			case strings.Contains(class, "copyright-block"):
-				copyrightHtml += innerHTML(x)
-			}
-		}
-		for c := x.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	f(n)
-	return
-}
-
 // ---------- Вспомогательные ----------
-
-func getTextContent(n *html.Node) string {
-	if n == nil {
-		return ""
-	}
-	var sb strings.Builder
-	var f func(*html.Node)
-	f = func(x *html.Node) {
-		if x.Type == html.TextNode {
-			sb.WriteString(x.Data)
-		}
-		for c := x.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	f(n)
-	return strings.TrimSpace(sb.String())
-}
-
-func innerHTML(n *html.Node) string {
-	var sb strings.Builder
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		sb.WriteString(renderNode(c))
-	}
-	return sb.String()
-}
-
-func renderNode(n *html.Node) string {
-	var b strings.Builder
-	html.Render(&b, n)
-	return b.String()
-}
-
-func getAttr(n *html.Node, key string) string {
-	for _, a := range n.Attr {
-		if strings.EqualFold(a.Key, key) {
-			return a.Val
-		}
-	}
-	return ""
-}
-
-func hasAttr(n *html.Node, key string) bool {
-	for _, a := range n.Attr {
-		if strings.EqualFold(a.Key, key) {
-			return true
-		}
-	}
-	return false
-}
 
 func escape(s string) string {
 	s = strings.ReplaceAll(s, "<", "&lt;")
@@ -592,7 +389,7 @@ func escape(s string) string {
 func main() {
 	app := NewApp()
 	err := wails.Run(&options.App{
-		Title:  "My Tilda-Like Constructor (No placeholders)",
+		Title:  "LocalConstructor",
 		Width:  1280,
 		Height: 800,
 		AssetServer: &assetserver.Options{

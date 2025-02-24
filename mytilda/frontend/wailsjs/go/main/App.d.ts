@@ -12,17 +12,11 @@ export function DeleteSection(arg1:string,arg2:string):Promise<boolean>;
 
 export function GetImageBase64(arg1:string):Promise<string>;
 
-export function ImportHtmlFileAsNewPage(arg1:string,arg2:string,arg3:string):Promise<string>;
-
-export function ListHtmlFiles(arg1:string):Promise<Array<string>>;
-
 export function ListPages():Promise<Array<main.ExtendedPage>>;
 
 export function ListSections(arg1:string):Promise<Array<main.Section>>;
 
-export function PublishAll():Promise<{[key: string]: string}>;
-
-export function ReadFileContent(arg1:string,arg2:string):Promise<string>;
+export function PublishAll():Promise<Record<string, string>>;
 
 export function SaveSite(arg1:string):Promise<void>;
 

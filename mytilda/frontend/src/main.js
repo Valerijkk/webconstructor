@@ -4,8 +4,6 @@
  */
 
 // Импорт методов из Go (main.go -> struct App).
-// Обратите внимание: "wailsjs/go/main/App" будет реально существовать
-// после запуска `wails dev` (Wails сам сгенерирует).
 import {
     ListHtmlFiles,
     ReadFileContent,
@@ -33,178 +31,78 @@ import {
     SetCopyright
 } from "../wailsjs/go/main/App";
 
-// Пример DOM-элементов (если ваш HTML для конструктора отличается,
-// подгоняйте id/классы под свой интерфейс):
-const folderPathEl = document.getElementById("folderPath");
-const listFolderBtn = document.getElementById("listFolderBtn");
-const fileListEl = document.getElementById("fileList");
-const fileContentEl = document.getElementById("fileContent");
-const importPageTitleEl = document.getElementById("importPageTitle");
-const importPageBtn = document.getElementById("importPageBtn");
-
-const newPageTitleEl = document.getElementById("newPageTitle");
-const createPageBtn = document.getElementById("createPageBtn");
-const pagesContainer = document.getElementById("pagesContainer");
-
-let currentPageID = null;
-const currentPageInfoEl = document.getElementById("currentPageInfo");
-
-const metaField = document.getElementById("metaField");
-const saveMetaBtn = document.getElementById("saveMetaBtn");
-const cssField = document.getElementById("cssField");
-const saveCSSBtn = document.getElementById("saveCSSBtn");
-const scriptsField = document.getElementById("scriptsField");
-const saveScriptsBtn = document.getElementById("saveScriptsBtn");
-const logoFileEl = document.getElementById("logoFile");
-const uploadLogoBtn = document.getElementById("uploadLogoBtn");
-const navField = document.getElementById("navField");
-const saveNavBtn = document.getElementById("saveNavBtn");
-const mainField = document.getElementById("mainField");
-const saveMainBtn = document.getElementById("saveMainBtn");
-const articleField = document.getElementById("articleField");
-const saveArticleBtn = document.getElementById("saveArticleBtn");
-const asideField = document.getElementById("asideField");
-const saveAsideBtn = document.getElementById("saveAsideBtn");
-const footerField = document.getElementById("footerField");
-const saveFooterBtn = document.getElementById("saveFooterBtn");
-const contactField = document.getElementById("contactField");
-const saveContactBtn = document.getElementById("saveContactBtn");
-const socialField = document.getElementById("socialField");
-const saveSocialBtn = document.getElementById("saveSocialBtn");
-const copyrightField = document.getElementById("copyrightField");
-const saveCopyrightBtn = document.getElementById("saveCopyrightBtn");
-
-const sectionsContainer = document.getElementById("sectionsContainer");
-const sectionTypeEl = document.getElementById("sectionType");
-const sectionContentEl = document.getElementById("sectionContent");
-const addSectionBtn = document.getElementById("addSectionBtn");
-const sectionImageFileEl = document.getElementById("sectionImageFile");
-const uploadImageSectionBtn = document.getElementById("uploadImageSectionBtn");
-
-const saveDirPathEl = document.getElementById("saveDirPath");
-const saveSiteBtn = document.getElementById("saveSiteBtn");
-
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Constructor main.js loaded!");
 
     // Пример навешивания обработчиков, если есть кнопки/поля:
-    if (listFolderBtn) {
-        listFolderBtn.addEventListener("click", listFolderHandler);
-    }
-    if (importPageBtn) {
-        importPageBtn.addEventListener("click", importPageHandler);
-    }
-    if (createPageBtn) {
-        createPageBtn.addEventListener("click", createPageHandler);
-    }
-    if (saveMetaBtn) {
-        saveMetaBtn.addEventListener("click", () => saveField(SetMeta, metaField.value, "Meta"));
-    }
-    if (saveCSSBtn) {
-        saveCSSBtn.addEventListener("click", () => saveField(SetCSS, cssField.value, "CSS"));
-    }
-    if (saveScriptsBtn) {
-        saveScriptsBtn.addEventListener("click", () => saveField(SetScripts, scriptsField.value, "Scripts"));
-    }
-    if (uploadLogoBtn) {
-        uploadLogoBtn.addEventListener("click", uploadLogoHandler);
-    }
-    if (saveNavBtn) {
-        saveNavBtn.addEventListener("click", () => saveField(SetNav, navField.value, "Nav"));
-    }
-    if (saveMainBtn) {
-        saveMainBtn.addEventListener("click", () => saveField(SetMain, mainField.value, "Main"));
-    }
-    if (saveArticleBtn) {
-        saveArticleBtn.addEventListener("click", () => saveField(SetArticle, articleField.value, "Article"));
-    }
-    if (saveAsideBtn) {
-        saveAsideBtn.addEventListener("click", () => saveField(SetAside, asideField.value, "Aside"));
-    }
-    if (saveFooterBtn) {
-        saveFooterBtn.addEventListener("click", () => saveField(SetFooter, footerField.value, "Footer"));
-    }
-    if (saveContactBtn) {
-        saveContactBtn.addEventListener("click", () => saveField(SetContact, contactField.value, "Contact"));
-    }
-    if (saveSocialBtn) {
-        saveSocialBtn.addEventListener("click", () => saveField(SetSocial, socialField.value, "Social"));
-    }
-    if (saveCopyrightBtn) {
-        saveCopyrightBtn.addEventListener("click", () => saveField(SetCopyright, copyrightField.value, "Copyright"));
-    }
-    if (addSectionBtn) {
-        addSectionBtn.addEventListener("click", addSectionHandler);
-    }
-    if (uploadImageSectionBtn) {
-        uploadImageSectionBtn.addEventListener("click", uploadImageSectionHandler);
-    }
-    if (saveSiteBtn) {
-        saveSiteBtn.addEventListener("click", saveSiteHandler);
-    }
+    document.getElementById("listFolderBtn")?.addEventListener("click", listFolderHandler);
+    document.getElementById("importPageBtn")?.addEventListener("click", importPageHandler);
+    document.getElementById("createPageBtn")?.addEventListener("click", createPageHandler);
+    document.getElementById("saveMetaBtn")?.addEventListener("click", () => saveField(SetMeta, document.getElementById("metaField").value, "Meta"));
+    document.getElementById("saveCSSBtn")?.addEventListener("click", () => saveField(SetCSS, document.getElementById("cssField").value, "CSS"));
+    document.getElementById("saveScriptsBtn")?.addEventListener("click", () => saveField(SetScripts, document.getElementById("scriptsField").value, "Scripts"));
+    document.getElementById("uploadLogoBtn")?.addEventListener("click", uploadLogoHandler);
+    document.getElementById("saveNavBtn")?.addEventListener("click", () => saveField(SetNav, document.getElementById("navField").value, "Nav"));
+    document.getElementById("saveMainBtn")?.addEventListener("click", () => saveField(SetMain, document.getElementById("mainField").value, "Main"));
+    document.getElementById("saveArticleBtn")?.addEventListener("click", () => saveField(SetArticle, document.getElementById("articleField").value, "Article"));
+    document.getElementById("saveAsideBtn")?.addEventListener("click", () => saveField(SetAside, document.getElementById("asideField").value, "Aside"));
+    document.getElementById("saveFooterBtn")?.addEventListener("click", () => saveField(SetFooter, document.getElementById("footerField").value, "Footer"));
+    document.getElementById("saveContactBtn")?.addEventListener("click", () => saveField(SetContact, document.getElementById("contactField").value, "Contact"));
+    document.getElementById("saveSocialBtn")?.addEventListener("click", () => saveField(SetSocial, document.getElementById("socialField").value, "Social"));
+    document.getElementById("saveCopyrightBtn")?.addEventListener("click", () => saveField(SetCopyright, document.getElementById("copyrightField").value, "Copyright"));
+    document.getElementById("addSectionBtn")?.addEventListener("click", addSectionHandler);
+    document.getElementById("uploadImageSectionBtn")?.addEventListener("click", uploadImageSectionHandler);
+    document.getElementById("saveSiteBtn")?.addEventListener("click", saveSiteHandler);
 
-    // При загрузке сразу покажем список страниц (если хотим)
     loadPages();
 });
 
 // ====== Функции ======
 
+// Загрузить список файлов из указанной папки
 async function listFolderHandler() {
-    if (!folderPathEl) return;
-    const dirPath = folderPathEl.value.trim();
-    if (!dirPath) {
-        alert("Укажите папку!");
-        return;
-    }
-    fileListEl.innerHTML = "Загрузка...";
+    const dirPath = document.getElementById("folderPath").value.trim();
+    if (!dirPath) return alert("Укажите папку!");
+
+    document.getElementById("fileList").innerHTML = "Загрузка...";
     try {
         const files = await ListHtmlFiles(dirPath);
-        fileListEl.innerHTML = "";
-        if (!files.length) {
-            fileListEl.innerHTML = "<p>Нет .html файлов</p>";
-            return;
-        }
+        document.getElementById("fileList").innerHTML = "";
+        if (!files.length) return document.getElementById("fileList").innerHTML = "<p>Нет .html файлов</p>";
         files.forEach((fn) => {
             const div = document.createElement("div");
             div.textContent = fn;
             div.addEventListener("click", () => selectFile(dirPath, fn));
-            fileListEl.appendChild(div);
+            document.getElementById("fileList").appendChild(div);
         });
     } catch (err) {
-        fileListEl.innerHTML = "Ошибка: " + err;
+        document.getElementById("fileList").innerHTML = "Ошибка: " + err;
     }
 }
 
+// Выбор файла для отображения
 async function selectFile(dirPath, fileName) {
     try {
         const content = await ReadFileContent(dirPath, fileName);
-        fileContentEl.value = content;
-        fileContentEl.dataset.filename = fileName;
+        document.getElementById("fileContent").value = content;
+        document.getElementById("fileContent").dataset.filename = fileName;
     } catch (err) {
-        fileContentEl.value = "Ошибка чтения: " + err;
+        document.getElementById("fileContent").value = "Ошибка чтения: " + err;
     }
 }
 
-function getSelectedFileName() {
-    return fileContentEl.dataset.filename || "";
-}
-
+// Импортировать страницу
 async function importPageHandler() {
-    const dirPath = folderPathEl.value.trim();
-    const fileName = getSelectedFileName();
-    const pageTitle = importPageTitleEl.value.trim();
-    if (!fileName) {
-        alert("Не выбран HTML-файл!");
-        return;
-    }
-    if (!pageTitle) {
-        alert("Введите название для новой страницы!");
-        return;
-    }
+    const dirPath = document.getElementById("folderPath").value.trim();
+    const fileName = document.getElementById("fileContent").dataset.filename;
+    const pageTitle = document.getElementById("importPageTitle").value.trim();
+    if (!fileName) return alert("Не выбран HTML-файл!");
+    if (!pageTitle) return alert("Введите название для новой страницы!");
+
     try {
         const newPageID = await ImportHtmlFileAsNewPage(dirPath, fileName, pageTitle);
         alert("Импорт завершён! Создана страница " + newPageID);
-        importPageTitleEl.value = "";
+        document.getElementById("importPageTitle").value = "";
         loadPages();
     } catch (err) {
         alert("Ошибка импорта: " + err);
@@ -213,14 +111,12 @@ async function importPageHandler() {
 
 // Создать новую страницу
 async function createPageHandler() {
-    const title = newPageTitleEl.value.trim();
-    if (!title) {
-        alert("Введите название!");
-        return;
-    }
+    const title = document.getElementById("newPageTitle").value.trim();
+    if (!title) return alert("Введите название!");
+
     try {
         await CreatePage(title);
-        newPageTitleEl.value = "";
+        document.getElementById("newPageTitle").value = "";
         loadPages();
     } catch (err) {
         alert("Ошибка создания страницы: " + err);
@@ -229,7 +125,9 @@ async function createPageHandler() {
 
 // Загрузить список страниц
 async function loadPages() {
+    const pagesContainer = document.getElementById("pagesContainer");
     if (!pagesContainer) return;
+
     pagesContainer.innerHTML = "Загрузка...";
     try {
         const pages = await ListPages();
@@ -245,8 +143,7 @@ async function loadPages() {
             div.textContent = `${pg.title} (${pg.id})`;
             div.addEventListener("click", () => {
                 currentPageID = pg.id;
-                if (currentPageInfoEl)
-                    currentPageInfoEl.textContent = `Выбрана страница: ${pg.title} (${pg.id})`;
+                document.getElementById("currentPageInfo").textContent = `Выбрана страница: ${pg.title} (${pg.id})`;
                 loadSections(pg.id);
             });
             const delBtn = document.createElement("button");
@@ -274,17 +171,15 @@ async function loadPages() {
     }
 }
 
+// Очистка редактора страницы
 function clearPageEditor() {
-    if (currentPageInfoEl) {
-        currentPageInfoEl.textContent = "—";
-    }
-    if (sectionsContainer) {
-        sectionsContainer.innerHTML = "";
-    }
+    document.getElementById("currentPageInfo").textContent = "—";
+    document.getElementById("sectionsContainer").innerHTML = "";
 }
 
 // Загрузить список секций страницы
 async function loadSections(pageID) {
+    const sectionsContainer = document.getElementById("sectionsContainer");
     if (!sectionsContainer) return;
     try {
         const secs = await ListSections(pageID);
@@ -294,21 +189,22 @@ async function loadSections(pageID) {
     }
 }
 
+// Отобразить секции
 function renderSections(sections) {
+    const sectionsContainer = document.getElementById("sectionsContainer");
     sectionsContainer.innerHTML = "";
     sections.forEach((sec) => {
         const div = document.createElement("div");
         div.className = "sectionItem";
         div.innerHTML = `
-      <strong>Type:</strong> ${sec.type}<br/>
-      <strong>Content:</strong> ${sec.content}
-    `;
+            <strong>Type:</strong> ${sec.type}<br/>
+            <strong>Content:</strong> ${sec.content}
+        `;
         const btnWrap = document.createElement("div");
         btnWrap.className = "sectionButtons";
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
-        editBtn.style.marginRight = "5px";
         editBtn.addEventListener("click", () => editSection(sec.id, sec.type, sec.content));
 
         const delBtn = document.createElement("button");
@@ -347,7 +243,7 @@ async function deleteSection(secID) {
     }
 }
 
-// Общая функция сохранения поля (Meta, CSS, Scripts и т.д.)
+// Сохранить поле (например, Meta, CSS, Scripts)
 function saveField(goMethod, value, fieldName) {
     if (!currentPageID) {
         alert("Сначала выберите страницу!");
@@ -362,13 +258,13 @@ function saveField(goMethod, value, fieldName) {
         });
 }
 
-// Загрузить логотип (SetLogo)
+// Загрузить логотип
 async function uploadLogoHandler() {
     if (!currentPageID) {
         alert("Нет выбранной страницы!");
         return;
     }
-    const file = logoFileEl.files[0];
+    const file = document.getElementById("logoFile").files[0];
     if (!file) {
         alert("Выберите файл логотипа!");
         return;
@@ -388,16 +284,16 @@ async function addSectionHandler() {
         alert("Сначала выберите страницу!");
         return;
     }
-    const stype = sectionTypeEl.value.trim();
-    const scontent = sectionContentEl.value;
+    const stype = document.getElementById("sectionType").value.trim();
+    const scontent = document.getElementById("sectionContent").value;
     if (!stype) {
         alert("Укажите тип секции!");
         return;
     }
     try {
         await AddSection(currentPageID, stype, scontent);
-        sectionTypeEl.value = "";
-        sectionContentEl.value = "";
+        document.getElementById("sectionType").value = "";
+        document.getElementById("sectionContent").value = "";
         loadSections(currentPageID);
     } catch (err) {
         alert("Ошибка добавления секции: " + err);
@@ -410,7 +306,7 @@ async function uploadImageSectionHandler() {
         alert("Нет выбранной страницы!");
         return;
     }
-    const file = sectionImageFileEl.files[0];
+    const file = document.getElementById("sectionImageFile").files[0];
     if (!file) {
         alert("Выберите изображение!");
         return;
@@ -420,16 +316,16 @@ async function uploadImageSectionHandler() {
         const imageID = await UploadImage(file.name, base64);
         await AddSection(currentPageID, "image", imageID);
         alert("Секция-изображение добавлена!");
-        sectionImageFileEl.value = "";
+        document.getElementById("sectionImageFile").value = "";
         loadSections(currentPageID);
     } catch (err) {
         alert("Ошибка секции-изображения: " + err);
     }
 }
 
-// Сохранить весь сайт в папку
+// Сохранить сайт в папку
 async function saveSiteHandler() {
-    const dirPath = saveDirPathEl.value.trim();
+    const dirPath = document.getElementById("saveDirPath").value.trim();
     if (!dirPath) {
         alert("Укажите папку для сохранения!");
         return;
