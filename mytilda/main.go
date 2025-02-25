@@ -8,6 +8,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"os"
+	"path/filepath"
 )
 
 // Встраиваем папку с активами фронтенда в Go
@@ -36,7 +37,7 @@ func NewApp() *App {
 }
 
 // SaveProjectData - сохранение проекта
-func (a *App) SaveProjectData(projectData map[string]string) {
+func (a *App) SaveProjectData(projectData map[string]string) error {
 	// Генерация нового ID
 	id := uuid.New().String()
 
@@ -55,26 +56,44 @@ func (a *App) SaveProjectData(projectData map[string]string) {
 	projectDir := fmt.Sprintf("./projects/%s", id)
 	err := os.MkdirAll(projectDir, os.ModePerm)
 	if err != nil {
-		fmt.Println("Ошибка при создании папки проекта:", err)
-		return
+		return fmt.Errorf("Ошибка при создании папки проекта: %v", err)
 	}
 
-	// Записываем HTML файл проекта
-	htmlFilePath := fmt.Sprintf("%s/index.html", projectDir)
+	// Создаем HTML файл проекта с объединением стилей и скриптов
+	htmlFilePath := filepath.Join(projectDir, "index.html")
 	htmlFile, err := os.Create(htmlFilePath)
 	if err != nil {
-		fmt.Println("Ошибка при создании HTML файла:", err)
-		return
+		return fmt.Errorf("Ошибка при создании HTML файла: %v", err)
 	}
 	defer htmlFile.Close()
 
-	// Генерация содержимого HTML
-	htmlContent := fmt.Sprintf("<html>\n<head>\n<title>%s</title>\n<style>%s</style>\n<script>%s</script>\n</head>\n<body>%s</body>\n</html>",
-		"Project", project.CSS, project.JS, project.HTML)
-	htmlFile.WriteString(htmlContent)
+	// Генерация содержимого HTML с включением стилей и скриптов
+	htmlContent := fmt.Sprintf(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проект</title>
+    <style>
+        %s
+    </style>
+</head>
+<body>
+    %s
+    <script>
+        %s
+    </script>
+</body>
+</html>`, project.CSS, project.HTML, project.JS)
+
+	_, err = htmlFile.WriteString(htmlContent)
+	if err != nil {
+		return fmt.Errorf("Ошибка при записи в HTML файл: %v", err)
+	}
 
 	// Выводим информацию
 	fmt.Println("Проект сохранен с ID:", id)
+	return nil
 }
 
 // Main функция
@@ -82,7 +101,7 @@ func main() {
 	app := NewApp()
 
 	err := wails.Run(&options.App{
-		Title:  "Constructor",
+		Title:  "LocalConstructor",
 		Width:  1280,
 		Height: 800,
 		AssetServer: &assetserver.Options{

@@ -62,32 +62,46 @@ async function saveProject(htmlEditor, cssEditor, jsEditor) {
     try {
         // Запросить доступ к файловой системе
         const handle = await window.showDirectoryPicker();
-        const projectDir = await handle.getDirectoryHandle("web_project", { create: true });
+        const projectsDir = await handle.getDirectoryHandle("проекты", { create: true });
 
-        // Сохранение HTML
+        // Генерация уникального имени папки для проекта
+        const projectName = "my_project_" + new Date().getTime();
+        const projectDir = await projectsDir.getDirectoryHandle(projectName, { create: true });
+
+        // Создание HTML файла с объединением стилей и скриптов
         const htmlFile = await projectDir.getFileHandle("index.html", { create: true });
         const htmlWritable = await htmlFile.createWritable();
-        await htmlWritable.write(projectData.html);
+
+        const fullHtmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проект</title>
+    <style>
+        ${projectData.css}
+    </style>
+</head>
+<body>
+    ${projectData.html}
+    <script>
+        ${projectData.js}
+    </script>
+</body>
+</html>
+        `;
+        await htmlWritable.write(fullHtmlContent);
         await htmlWritable.close();
 
-        // Сохранение CSS
-        const cssFile = await projectDir.getFileHandle("styles.css", { create: true });
-        const cssWritable = await cssFile.createWritable();
-        await cssWritable.write(projectData.css);
-        await cssWritable.close();
+        alert("Проект сохранен в папке 'проекты'!");
 
-        // Сохранение JS
-        const jsFile = await projectDir.getFileHandle("script.js", { create: true });
-        const jsWritable = await jsFile.createWritable();
-        await jsWritable.write(projectData.js);
-        await jsWritable.close();
-
-        alert("Проект сохранен в выбранной папке!");
     } catch (err) {
         console.error(err);
         alert("Ошибка при сохранении проекта.");
     }
 }
+
 
 // Вставка шаблонов
 function insertTemplate(templateName) {
