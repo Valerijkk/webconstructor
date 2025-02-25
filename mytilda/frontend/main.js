@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("newProjectBtn").addEventListener("click", () => createNewProject(htmlEditor, cssEditor, jsEditor));
     document.getElementById("saveProjectBtn").addEventListener("click", () => saveProject(htmlEditor, cssEditor, jsEditor));
 });
-
+const htmlEditor = ace.edit("htmlEditor");
 // Функция для создания нового проекта
 function createNewProject(htmlEditor, cssEditor, jsEditor) {
     const baseHTML = `<!DOCTYPE html>
@@ -102,27 +102,109 @@ function insertTemplate(templateName) {
         case 'a':
             content = `<a href="#">Ссылка</a>`;
             break;
-        case 'img':
-            content = `<img src="image.jpg" alt="Изображение" />`;
+        case 'abbr':
+            content = `<abbr title="HTML">HTML</abbr>`;
             break;
-        case 'table':
-            content = `<table><tr><th>Заголовок</th><td>Данные</td></tr></table>`;
+        case 'address':
+            content = `<address>Контактные данные: email@example.com</address>`;
+            break;
+        case 'audio':
+            content = `<audio controls><source src="audio.mp3" type="audio/mp3">Ваш браузер не поддерживает аудио.</audio>`;
+            break;
+        case 'b':
+            content = `<b>Полужирный текст</b>`;
+            break;
+        case 'blockquote':
+            content = `<blockquote>Это цитата из какого-то источника.</blockquote>`;
+            break;
+        case 'canvas':
+            content = `<canvas id="myCanvas" width="500" height="500">Ваш браузер не поддерживает canvas.</canvas>`;
+            break;
+        case 'caption':
+            content = `<caption>Подпись таблицы</caption>`;
+            break;
+        case 'code':
+            content = `<code>console.log("Hello World!");</code>`;
+            break;
+        case 'col':
+            content = `<col>`;
+            break;
+        case 'colgroup':
+            content = `<colgroup><col></colgroup>`;
+            break;
+        case 'data':
+            content = `<data value="123">Число</data>`;
+            break;
+        case 'datalist':
+            content = `<datalist id="dataList"><option value="Option 1"><option value="Option 2"></datalist>`;
+            break;
+        case 'dd':
+            content = `<dd>Описание термина</dd>`;
+            break;
+        case 'del':
+            content = `<del>Удаленный текст</del>`;
+            break;
+        case 'details':
+            content = `<details><summary>Дополнительные детали</summary><p>Текст, который будет скрыт</p></details>`;
+            break;
+        case 'dfn':
+            content = `<dfn>Термин</dfn>`;
+            break;
+        case 'dialog':
+            content = `<dialog>Диалоговое окно</dialog>`;
+            break;
+        case 'div':
+            content = `<div>Контейнер</div>`;
             break;
         case 'form':
             content = `<form><label for="name">Имя:</label><input type="text" id="name" name="name"></form>`;
             break;
-        case 'nav':
-            content = `<nav><ul><li>Главная</li><li>О нас</li><li>Контакты</li></ul></nav>`;
+        case 'img':
+            content = `<img src="image.jpg" alt="Изображение" />`;
             break;
-        case 'article':
-            content = `<article><h2>Заголовок статьи</h2><p>Текст статьи...</p></article>`;
+        case 'input':
+            content = `<input type="text" placeholder="Введите текст">`;
+            break;
+        case 'label':
+            content = `<label for="inputField">Метка</label>`;
+            break;
+        case 'ol':
+            content = `<ol><li>Первый элемент</li><li>Второй элемент</li></ol>`;
+            break;
+        case 'p':
+            content = `<p>Параграф текста</p>`;
             break;
         case 'section':
             content = `<section><h3>Секция</h3><p>Контент секции</p></section>`;
             break;
+        case 'span':
+            content = `<span>Текст в span</span>`;
+            break;
+        case 'strong':
+            content = `<strong>Жирный текст</strong>`;
+            break;
+        case 'table':
+            content = `<table><tr><th>Заголовок</th><td>Данные</td></tr></table>`;
+            break;
+        case 'ul':
+            content = `<ul><li>Первый пункт</li><li>Второй пункт</li></ul>`;
+            break;
         default:
+            content = ''; // Если шаблон не найден, не вставляем ничего
             break;
     }
-    // Вставляем шаблон в редактор
-    htmlEditor.setValue(content, -1);
+
+    // Получаем текущую позицию курсора
+    const cursorPosition = htmlEditor.getCursorPosition();
+
+    // Вставляем шаблон на текущую позицию курсора
+    htmlEditor.session.insert(cursorPosition, content);
+
+    // После вставки перемещаем курсор в конец вставленного текста
+    const newPosition = {
+        row: cursorPosition.row,
+        column: cursorPosition.column + content.length // Сдвигаем курсор после вставки
+    };
+    htmlEditor.moveCursorTo(newPosition.row, newPosition.column);
 }
+
