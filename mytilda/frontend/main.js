@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Слушаем события на кнопках
     document.getElementById("newProjectBtn").addEventListener("click", () => createNewProject(htmlEditor, cssEditor, jsEditor));
     document.getElementById("saveProjectBtn").addEventListener("click", () => saveProject(htmlEditor, cssEditor, jsEditor));
+    // Добавляем обработчик для предпросмотра
+    document.getElementById("previewBtn").addEventListener("click", () => previewProject(htmlEditor, cssEditor, jsEditor));
 });
 const htmlEditor = ace.edit("htmlEditor");
 // Функция для создания нового проекта
@@ -203,6 +205,105 @@ function insertTemplate(templateName) {
         case 'ul':
             content = `<ul><li>Первый пункт</li><li>Второй пункт</li></ul>`;
             break;
+        case 'element':
+            content = `<div>Комментарии</div>`;
+            break;
+        case 'doctype':
+            content = `<!DOCTYPE html>`;
+            break;
+        case 'area':
+            content = `<area shape="rect" coords="34,44,270,350" alt="Область карты" href="https://example.com" />`;
+            break;
+        case 'article':
+            content = `<article>Статья</article>`;
+            break;
+        case 'aside':
+            content = `<aside>Побочный контент</aside>`;
+            break;
+        case 'base':
+            content = `<base href="https://example.com" />`;
+            break;
+        case 'bdi':
+            content = `<bdi>Изолированное направление</bdi>`;
+            break;
+        case 'bdo':
+            content = `<bdo dir="rtl">Направление текста</bdo>`;
+            break;
+        case 'cite':
+            content = `<cite>Источник цитирования</cite>`;
+            break;
+        case 'colgroup':
+            content = `<colgroup><col span="1" /></colgroup>`;
+            break;
+        case 'data':
+            content = `<data value="123">Данные</data>`;
+            break;
+        case 'datalist':
+            content = `<datalist id="dataList"><option value="Option 1"><option value="Option 2"></datalist>`;
+            break;
+        case 'dd':
+            content = `<dd>Описание</dd>`;
+            break;
+        case 'del':
+            content = `<del>Удаленный текст</del>`;
+            break;
+        case 'details':
+            content = `<details><summary>Детали</summary><p>Скрытый текст</p></details>`;
+            break;
+        case 'dfn':
+            content = `<dfn>Термин</dfn>`;
+            break;
+        case 'dialog':
+            content = `<dialog>Диалог</dialog>`;
+            break;
+        case 'div':
+            content = `<div>Контейнер</div>`;
+            break;
+        case 'dl':
+            content = `<dl><dt>Термин</dt><dd>Описание</dd></dl>`;
+            break;
+        case 'dt':
+            content = `<dt>Термин списка</dt>`;
+            break;
+        case 'em':
+            content = `<em>Акцент на важности</em>`;
+            break;
+        case 'embed':
+            content = `<embed src="example.swf" type="application/x-shockwave-flash" />`;
+            break;
+        case 'fieldset':
+            content = `<fieldset><legend>Группировка формы</legend></fieldset>`;
+            break;
+        case 'figcaption':
+            content = `<figcaption>Подпись изображения</figcaption>`;
+            break;
+        case 'figure':
+            content = `<figure><img src="image.jpg" alt="Изображение" /><figcaption>Подпись</figcaption></figure>`;
+            break;
+        case 'footer':
+            content = `<footer>Футер</footer>`;
+            break;
+        case 'form':
+            content = `<form><input type="text" placeholder="Введите текст" /></form>`;
+            break;
+        case 'h1':
+            content = `<h1>Заголовок 1</h1>`;
+            break;
+        case 'h2':
+            content = `<h2>Заголовок 2</h2>`;
+            break;
+        case 'h3':
+            content = `<h3>Заголовок 3</h3>`;
+            break;
+        case 'h4':
+            content = `<h4>Заголовок 4</h4>`;
+            break;
+        case 'h5':
+            content = `<h5>Заголовок 5</h5>`;
+            break;
+        case 'h6':
+            content = `<h6>Заголовок 6</h6>`;
+            break;
         default:
             content = ''; // Если шаблон не найден, не вставляем ничего
             break;
@@ -222,3 +323,33 @@ function insertTemplate(templateName) {
     htmlEditor.moveCursorTo(newPosition.row, newPosition.column);
 }
 
+// Функция для предпросмотра
+function previewProject(htmlEditor, cssEditor, jsEditor) {
+    const htmlContent = htmlEditor.getValue();
+    const cssContent = cssEditor.getValue();
+    const jsContent = jsEditor.getValue();
+
+    const fullHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Предпросмотр проекта</title>
+    <style>
+        ${cssContent}
+    </style>
+</head>
+<body>
+    ${htmlContent}
+    <script>
+        ${jsContent}
+    </script>
+</body>
+</html>
+    `;
+
+    const previewWindow = window.open("", "_blank");
+    previewWindow.document.write(fullHtml);
+    previewWindow.document.close();
+}
