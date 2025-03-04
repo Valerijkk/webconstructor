@@ -14,6 +14,14 @@ import (
 // Встраиваем папку с активами фронтенда в Go
 //
 //go:embed frontend/dist/*
+//go:embed frontend/dist/**/*
+//go:embed frontend/*.html
+//go:embed frontend/*.js
+//go:embed frontend/*.css
+//go:embed frontend/logo-valera.png
+//go:embed frontend/image_2025-02-26_14-29-11.png
+//go:embed frontend/logo.png
+//go:embed frontend/appicon.png
 var assets embed.FS
 
 // Project - структура для проекта
