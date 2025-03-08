@@ -367,6 +367,7 @@ function insertTemplate(templateName) {
     }
 
 
+    // Полный объект с базовыми стилями для всех шаблонов
     const templateCss = {
         header: "header { background: #f5f5f5; padding: 10px; margin-bottom: 10px; }",
         footer: "footer { background: #222; color: #fff; padding: 10px; margin-top: 10px; }",
@@ -375,11 +376,55 @@ function insertTemplate(templateName) {
         address: "address { font-style: normal; }",
         audio: "audio { display: block; margin: 10px 0; }",
         b: "b { font-weight: bold; }",
-        blockquote: "blockquote { margin: 1em 40px; }",
-        canvas: "canvas { border: 1px solid #000; }",
+        blockquote: "blockquote { margin: 1em 40px; font-style: italic; }",
+        canvas: "canvas { border: 1px solid #000; display: block; margin: 10px 0; }",
         caption: "caption { text-align: center; font-style: italic; }",
-        code: "code { background: #eee; padding: 2px 4px; }"
+        code: "code { background: #eee; padding: 2px 4px; font-family: monospace; }",
+        col: "col { background: #ddd; }",
+        colgroup: "colgroup { background: #ccc; }",
+        data: "data { color: #555; }",
+        datalist: "datalist { border: 1px solid #ccc; }",
+        dd: "dd { margin-left: 20px; }",
+        del: "del { text-decoration: line-through; color: red; }",
+        details: "details { padding: 10px; border: 1px solid #aaa; }",
+        dfn: "dfn { font-style: italic; }",
+        dialog: "dialog { border: 1px solid #000; padding: 10px; }",
+        div: "div { margin: 10px 0; }",
+        form: "form { margin: 10px 0; }",
+        img: "img { max-width: 100%; height: auto; display: block; margin: 10px 0; }",
+        input: "input { padding: 5px; border: 1px solid #ccc; }",
+        label: "label { font-weight: bold; }",
+        ol: "ol { padding-left: 20px; }",
+        p: "p { margin: 10px 0; line-height: 1.5; }",
+        section: "section { padding: 10px; margin: 10px 0; border: 1px solid #eee; }",
+        span: "span { font-size: 1em; }",
+        strong: "strong { font-weight: bold; }",
+        table: "table { width: 100%; border-collapse: collapse; margin: 10px 0; } table, th, td { border: 1px solid #ccc; padding: 5px; }",
+        ul: "ul { padding-left: 20px; list-style-type: disc; }",
+        element: ".element { margin: 10px 0; }",
+        doctype: "", // Нет стилей для DOCTYPE
+        area: "area { }",
+        article: "article { padding: 10px; margin: 10px 0; }",
+        aside: "aside { background: #f0f0f0; padding: 10px; margin: 10px 0; }",
+        base: "", // Нет отображаемых стилей
+        bdi: "bdi { direction: ltr; }",
+        bdo: "bdo { direction: rtl; }",
+        cite: "cite { font-style: italic; }",
+        dl: "dl { margin: 10px 0; } dl dt { font-weight: bold; } dl dd { margin-left: 20px; }",
+        dt: "dt { font-weight: bold; }",
+        em: "em { font-style: italic; }",
+        embed: "embed { width: 100%; height: auto; }",
+        fieldset: "fieldset { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }",
+        figcaption: "figcaption { text-align: center; font-style: italic; }",
+        figure: "figure { margin: 10px 0; text-align: center; }",
+        h1: "h1 { font-size: 2em; margin: 0.67em 0; }",
+        h2: "h2 { font-size: 1.5em; margin: 0.75em 0; }",
+        h3: "h3 { font-size: 1.17em; margin: 0.83em 0; }",
+        h4: "h4 { font-size: 1em; margin: 1.12em 0; }",
+        h5: "h5 { font-size: 0.83em; margin: 1.5em 0; }",
+        h6: "h6 { font-size: 0.75em; margin: 1.67em 0; }"
     };
+
 
 
     // Получаем текущую позицию курсора
