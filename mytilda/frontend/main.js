@@ -16,40 +16,97 @@ document.addEventListener("DOMContentLoaded", () => {
     jsEditor.setTheme("ace/theme/monokai");
     jsEditor.session.setMode("ace/mode/javascript");
 
+    window.htmlEditor = ace.edit("htmlEditor");
+    htmlEditor.setTheme("ace/theme/monokai");
+    htmlEditor.session.setMode("ace/mode/html");
+// Аналогично для cssEditor и jsEditor:
+    window.cssEditor = ace.edit("cssEditor");
+    cssEditor.setTheme("ace/theme/monokai");
+    cssEditor.session.setMode("ace/mode/css");
+
+
     // Слушаем события на кнопках
     document.getElementById("newProjectBtn").addEventListener("click", () => createNewProject(htmlEditor, cssEditor, jsEditor));
     document.getElementById("saveProjectBtn").addEventListener("click", () => saveProject(htmlEditor, cssEditor, jsEditor));
     // Добавляем обработчик для предпросмотра
     document.getElementById("previewBtn").addEventListener("click", () => previewProject(htmlEditor, cssEditor, jsEditor));
+
+    if (localStorage.getItem("htmlContent")) {
+        htmlEditor.setValue(localStorage.getItem("htmlContent"), -1);
+    }
+    if (localStorage.getItem("cssContent")) {
+        cssEditor.setValue(localStorage.getItem("cssContent"), -1);
+    }
+    if (localStorage.getItem("jsContent")) {
+        jsEditor.setValue(localStorage.getItem("jsContent"), -1);
+    }
+
+// Автоматическое сохранение изменений в localStorage
+    function saveToLocal() {
+        localStorage.setItem("htmlContent", htmlEditor.getValue());
+        localStorage.setItem("cssContent", cssEditor.getValue());
+        localStorage.setItem("jsContent", jsEditor.getValue());
+    }
+    htmlEditor.session.on("change", saveToLocal);
+    cssEditor.session.on("change", saveToLocal);
+    jsEditor.session.on("change", saveToLocal);
 });
+
 const htmlEditor = ace.edit("htmlEditor");
-// Функция для создания нового проекта
+// Модифицированная функция создания нового проекта
 function createNewProject(htmlEditor, cssEditor, jsEditor) {
     const baseHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Новый проект</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    </style>
-</head>
-<body>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заголовок страницы</title>
+    <link rel="stylesheet" href="./styles/style.css">
+
+    <meta property="og:title" content="Заголовок страницы в OG">
+    <meta property="og:description" content="Описание страницы в OG">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com/">
+  </head>
+  <body>
     <header>
-        <h1>Мой новый проект</h1>
+      <h1>Личный сайт</h1>
+      <p>Который сделан на основе готового шаблона</p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Эта страница</a></li>
+          <li><a href="catalog.html">Другая страница</a></li>
+        </ul>
+      </nav>
     </header>
     <main>
-        <p>Контент будет вставляться здесь.</p>
+      <article>
+        <section>
+          <h2>Первая секция</h2>
+          <p>Она обо мне</p>
+          <img src="images/image.png" alt="Человек и пароход">
+          <p>Но может быть и о семантике, я пока не решил.</p>
+        </section>
+        <section>
+          <h2>Вторая секция</h2>
+          <p>Она тоже обо мне</p>
+        </section>
+        <section>
+          <h2>И третья</h2>
+          <p>Вы уже должны были начать догадываться.</p>
+        </section>
+      </article>
     </main>
     <footer>
-        <p>&copy; 2025 Мой сайт</p>
+      <p>Сюда бы я вписал информацию об авторе и ссылки на другие сайты</p>
     </footer>
-</body>
+    <!-- сюда можно подключить jquery <script src="scripts/app.js" defer></script> -->
+  </body>
 </html>`;
     htmlEditor.setValue(baseHTML, -1);
-    cssEditor.setValue("/* CSS content */", -1);
-    jsEditor.setValue("// JS content", -1);
+    cssEditor.setValue("", -1);
+    // Автоматически генерируем и устанавливаем JS с CSS правилами
+    updateJsEditorWithCss();
     alert("Новый проект создан!");
 }
 
@@ -309,6 +366,22 @@ function insertTemplate(templateName) {
             break;
     }
 
+
+    const templateCss = {
+        header: "header { background: #f5f5f5; padding: 10px; margin-bottom: 10px; }",
+        footer: "footer { background: #222; color: #fff; padding: 10px; margin-top: 10px; }",
+        a: "a { color: blue; text-decoration: underline; }",
+        abbr: "abbr { border-bottom: 1px dotted #000; cursor: help; }",
+        address: "address { font-style: normal; }",
+        audio: "audio { display: block; margin: 10px 0; }",
+        b: "b { font-weight: bold; }",
+        blockquote: "blockquote { margin: 1em 40px; }",
+        canvas: "canvas { border: 1px solid #000; }",
+        caption: "caption { text-align: center; font-style: italic; }",
+        code: "code { background: #eee; padding: 2px 4px; }"
+    };
+
+
     // Получаем текущую позицию курсора
     const cursorPosition = htmlEditor.getCursorPosition();
 
@@ -321,6 +394,14 @@ function insertTemplate(templateName) {
         column: cursorPosition.column + content.length // Сдвигаем курсор после вставки
     };
     htmlEditor.moveCursorTo(newPosition.row, newPosition.column);
+
+    // Если для вставляемого шаблона определены базовые стили, добавляем их в CSS редактор
+    if (templateCss.hasOwnProperty(templateName)) {
+        const cssRule = templateCss[templateName];
+        if (!cssEditor.getValue().includes(cssRule)) {
+            cssEditor.session.insert({ row: cssEditor.session.getLength(), column: 0 }, "\n" + cssRule);
+        }
+    }
 }
 
 // Функция для предпросмотра
@@ -352,4 +433,24 @@ function previewProject(htmlEditor, cssEditor, jsEditor) {
     const previewWindow = window.open("", "_blank");
     previewWindow.document.write(fullHtml);
     previewWindow.document.close();
+}
+function showEditor(editorId) {
+    document.getElementById("htmlEditor").classList.add("hidden");
+    document.getElementById("cssEditor").classList.add("hidden");
+    document.getElementById("jsEditor").classList.add("hidden");
+    document.getElementById(editorId).classList.remove("hidden");
+}
+document.getElementById("tab-html").addEventListener("click", () => showEditor("htmlEditor"));
+document.getElementById("tab-css").addEventListener("click", () => showEditor("cssEditor"));
+document.getElementById("tab-js").addEventListener("click", () => showEditor("jsEditor"));
+
+
+function updateJsEditorWithCss() {
+    const cssContent = cssEditor.getValue();
+    const jsTemplate = `(function(){
+    var style = document.createElement('style');
+    style.innerHTML = \`${cssContent}\`;
+    document.head.appendChild(style);
+})();`;
+    jsEditor.setValue(jsTemplate, -1);
 }

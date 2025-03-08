@@ -12,17 +12,12 @@
 <body class="bg-gray-200">
 <div class="fixed inset-0">
     <nav class="fixed inset-0 z-10 h-12 bg-gray-900 opacity-100 hover:opacity-100">
-        <div class="mx-10 flex justify-between items-center">
-            <a href="./about-project.html" class="text-gray-200 text-2xl font-bold">
-                <img src="logo.png" alt="Логотип" class="h-10" />
-            </a>
             <div class="space-x-5">
                 <!-- Кнопка предпросмотра -->
                 <button class="text-gray-400 hover:text-gray-200" id="previewBtn">Предпросмотр</button>
                 <button class="text-gray-400 hover:text-gray-200" id="newProjectBtn">Новый проект</button>
                 <button class="text-gray-400 hover:text-gray-200" id="saveProjectBtn">Сохранить</button>
             </div>
-        </div>
     </nav>
 
     <!-- Левый сайдбар с шаблонами -->
@@ -33,10 +28,10 @@
         <!-- Прокручиваемая часть с шаблонами -->
         <div class="mx-2 space-y-2">
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('header')">Шаблон хедера</button>
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('header')">Хедер</button>
             </div>
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('footer')">Шаблон футера</button>
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('footer')">Футер</button>
             </div>
             <div class="h-12 flex justify-center items-center">
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('a')">Ссылка</button>
@@ -114,13 +109,10 @@
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('base')">Базовый адрес</button>
             </div>
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('bdi')">Изолированное направление</button>
-            </div>
-            <div class="h-12 flex justify-center items-center">
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('bdo')">Направление текста</button>
             </div>
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('cite')">Источник цитирования</button>
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('cite')">Источник цитаты</button>
             </div>
             <div class="h-12 flex justify-center items-center">
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('colgroup')">Группа столбцов</button>
@@ -165,10 +157,10 @@
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('fieldset')">Группировка формы</button>
             </div>
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figcaption')">Подпись изображения</button>
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figcaption')">Подпись фото</button>
             </div>
             <div class="h-12 flex justify-center items-center">
-                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figure')">Изображение/иллюстрация</button>
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figure')">Изображение</button>
             </div>
             <div class="h-12 flex justify-center items-center">
                 <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('footer')">Футер</button>
@@ -198,34 +190,20 @@
     </nav>
 
 
-
-    <!-- Центральный блок с редактором HTML -->
-    <div class="ml-48 mt-14 w-2/3 h-screen">
-        <div class="text-gray-800 font-bold text-xl mb-3">Редактор HTML</div>
-        <div id="htmlEditor" class="h-4/5"></div>
+    <div class="ml-48 mt-12 flex flex-col" style="width: calc(100vw - 12rem); height: calc(100vh - 3rem);">
+        <!-- Панель переключения редакторов -->
+        <div class="flex space-x-4 p-2 bg-gray-900">
+            <button id="tab-html" class="text-gray-400 hover:text-gray-200">HTML</button>
+            <button id="tab-css" class="text-gray-400 hover:text-gray-200">CSS</button>
+            <button id="tab-js" class="text-gray-400 hover:text-gray-200">JS</button>
+        </div>
+        <!-- Контейнер редакторов с прокруткой -->
+        <div id="editorContainer" class="relative flex-grow overflow-auto">
+            <div id="htmlEditor" class="absolute inset-0 overflow-auto"></div>
+            <div id="cssEditor" class="absolute inset-0 hidden overflow-auto"></div>
+            <div id="jsEditor" class="absolute inset-0 hidden overflow-auto"></div>
+        </div>
     </div>
-
-    <!-- Правый сайдбар с редактором JS -->
-    <nav class="fixed inset-y-0 right-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100">
-        <div class="mt-20 mx-2 h-10 text-gray-300 flex justify-center items-center">Редактор JS</div>
-        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
-        <div class="mx-2 h-23 flex justify-center items-center">
-            <div id="jsEditor" class="h-32 w-48"></div>
-        </div>
-    </nav>
-
-    <!-- Редактор CSS для каждого элемента сайта -->
-    <nav class="fixed inset-y-0 right-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100 mt-80">
-        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">Редактор CSS</div>
-        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
-        <div class="mx-2 mt-3 flex justify-center">
-            <div class="bg-gray-900 rounded bg-opacity-60 w-48 text-gray-400 hover:text-gray-200">
-                <!-- Задаем точную высоту для контейнера CSS -->
-                <div id="cssEditor" style="height: 100px;" class="overflow-auto p-2"></div>
-            </div>
-        </div>
-    </nav>
-</div>
 
 <!-- Подключаем JS конструктора -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"></script>
