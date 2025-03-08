@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const htmlEditor = ace.edit("htmlEditor");
+const jsEditor = ace.edit("jsEditor");
 // Модифицированная функция создания нового проекта
 function createNewProject(htmlEditor, cssEditor, jsEditor) {
     const baseHTML = `<!DOCTYPE html>
@@ -499,3 +500,23 @@ function updateJsEditorWithCss() {
 })();`;
     jsEditor.setValue(jsTemplate, -1);
 }
+
+
+document.getElementById("toggleTheme").addEventListener("click", () => {
+    const body = document.body;
+    const isDark = body.classList.contains("dark");
+
+    if (isDark) {
+        // Переключаем на светлую тему
+        body.classList.remove("dark");
+        htmlEditor.setTheme("ace/theme/chrome");
+        cssEditor.setTheme("ace/theme/chrome");
+        jsEditor.setTheme("ace/theme/chrome");
+    } else {
+        // Переключаем на темную тему
+        body.classList.add("dark");
+        htmlEditor.setTheme("ace/theme/monokai");
+        cssEditor.setTheme("ace/theme/monokai");
+        jsEditor.setTheme("ace/theme/monokai");
+    }
+});
