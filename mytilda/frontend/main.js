@@ -113,6 +113,7 @@ function createNewProject(htmlEditor, cssEditor, jsEditor) {
 
 // Функция для сохранения проекта
 async function saveProject(htmlEditor, cssEditor, jsEditor) {
+    // Собираем данные из основных редакторов
     const projectData = {
         html: htmlEditor.getValue(),
         css: cssEditor.getValue(),
@@ -120,47 +121,55 @@ async function saveProject(htmlEditor, cssEditor, jsEditor) {
     };
 
     try {
-        // Запросить доступ к файловой системе
+        // Выбираем корневую папку
         const handle = await window.showDirectoryPicker();
-        const projectsDir = await handle.getDirectoryHandle("проекты", { create: true });
-
-        // Генерация уникального имени папки для проекта
+        // Создаем (или получаем) папку "проекты LocalConstructor" в выбранной директории
+        const baseDir = await handle.getDirectoryHandle("проекты LocalConstructor", { create: true });
+        // Генерируем уникальное имя проекта
         const projectName = "my_project_" + new Date().getTime();
-        const projectDir = await projectsDir.getDirectoryHandle(projectName, { create: true });
+        // Создаем папку для данного проекта внутри baseDir
+        const projectDir = await baseDir.getDirectoryHandle(projectName, { create: true });
 
-        // Создание HTML файла с объединением стилей и скриптов
+        // Сохраняем основной HTML (главная страница) в index.html
         const htmlFile = await projectDir.getFileHandle("index.html", { create: true });
         const htmlWritable = await htmlFile.createWritable();
-
-        const fullHtmlContent = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Проект</title>
-    <style>
-        ${projectData.css}
-    </style>
-</head>
-<body>
-    ${projectData.html}
-    <script>
-        ${projectData.js}
-    </script>
-</body>
-</html>
-        `;
-        await htmlWritable.write(fullHtmlContent);
+        await htmlWritable.write(projectData.html);
         await htmlWritable.close();
 
-        alert("Проект сохранен в папке 'проекты'!");
+        // Сохраняем CSS в styles.css
+        const cssFile = await projectDir.getFileHandle("styles.css", { create: true });
+        const cssWritable = await cssFile.createWritable();
+        await cssWritable.write(projectData.css);
+        await cssWritable.close();
 
+        // Сохраняем JS в script.js
+        const jsFile = await projectDir.getFileHandle("script.js", { create: true });
+        const jsWritable = await jsFile.createWritable();
+        await jsWritable.write(projectData.js);
+        await jsWritable.close();
+
+        // Если есть дополнительные страницы (предполагается, что они хранятся в глобальном объекте newPageEditors)
+        // Для каждой создадим файл "page_ИмяСтраницы.html"
+        if (window.newPageEditors) {
+            for (let pageName in window.newPageEditors) {
+                const editor = window.newPageEditors[pageName];
+                const pageContent = editor.getValue();
+                // Чтобы избежать проблем с именованием файлов, можно заменить пробелы на подчёркивания
+                const safeName = pageName.replace(/\s+/g, "_");
+                const pageFile = await projectDir.getFileHandle(`page_${safeName}.html`, { create: true });
+                const pageWritable = await pageFile.createWritable();
+                await pageWritable.write(pageContent);
+                await pageWritable.close();
+            }
+        }
+
+        alert("Проект сохранен в папке 'проекты LocalConstructor/" + projectName + "'!");
     } catch (err) {
         console.error(err);
         alert("Ошибка при сохранении проекта.");
     }
 }
+
 
 
 // Вставка шаблонов
@@ -520,3 +529,449 @@ document.getElementById("toggleTheme").addEventListener("click", () => {
         jsEditor.setTheme("ace/theme/monokai");
     }
 });
+
+
+
+
+    // Пример массива шаблонов сайтов
+    const siteTemplates = [
+    {
+        name: "Интернет-магазин",
+        // Изображение уже прописали выше (shop.png)
+        html: `<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poller+One&family=Raleway:wght@500&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <h1>STAR WARS</h1>
+    <h4 class="subtitle">May the Force be with you</h4>
+    <div class="flex_container">
+      <div class="main_series_container">
+        <div class="series_container">
+          <h2 class="name">Ahsoka <br><span class="year">(2023)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.0</span>/10</p>
+          <p class="price">€9.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">
+            The Mandalorian <br><span class="year">(2019-2023)</span>
+          </h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.7</span>/10</p>
+          <p class="price">€29.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">Andor <br><span class="year">(2022)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.4</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)" class="buy">ADD TO BAG</button>
+        </div>
+        <div `,
+        css: `html {
+  background-image: url("https://cdn.pixabay.com/photo/2019/12/23/11/08/space-4714327_1280.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  margin: 40px 0 30px;
+  text-align: center;
+  font-family: "Poller One", cursive;
+  color: black;
+  font-size: 60px;
+  text-shadow: -1px 1px #FFE81F,
+          1px 1px 0 #FFE81F,
+         1px -1px 0 #FFE81F,
+        -1px -1px 0 #FFE81F;
+}
+
+.subtitle {
+  color: #FFE81F;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.flex_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.main_series_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.series_container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: #ffe6ff;
+  width: 17%;
+  border-radius: 12px;
+}
+
+.name, .imdb, .price {
+  margin: 5px 0;
+}
+
+.name {
+  font-size: 22px;
+}
+
+.year,
+.imdb {
+  color: #8c8c8c;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.review {
+  font-size: 16px;
+  color: #ffe6ff;
+  font-weight:bold;
+}
+
+.price, .added_price {
+  font-size: 1.5em;
+  font-weight: bolder;
+}
+
+.added_price {
+  color: #ffe6ff;
+}
+
+/* button */
+.series_container > button {
+  background-color: rgb(255, 255, 255, 0.2);
+  color: #ffe6ff;
+  width: 100%;
+  border: none;
+  font-family: "Poller One", cursive;
+  font-size: 18px;
+  border-radius: 12px;
+  margin: 15px auto 0;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.series_container > button:hover {
+background-color:   rgb(255, 232, 31, 0.5);
+}
+
+button:disabled {
+  background-color: rgb(255, 255, 255, 0.1);
+  color: rgb(255, 255, 255, 0.3);
+  pointer-events: none; /*stops hover effect*/
+} 
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 450px;
+  margin: 50px auto 0;
+  color: #ffe6ff;
+  border-radius: 12px;
+  border: 2px solid rgb(255, 255, 255, 0.2);
+  font-family: "Roboto", sans-serif;
+}
+
+.added_items {
+  margin-top: 7px;
+}
+
+.single_added_item {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 12px;
+}
+
+.price_del_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.total_container {
+  margin: 0 12px 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.added_total, .total {
+  margin: 5px;
+  font-family: "Poller One", cursive;
+  color: #FFE81F;
+  font-size: 1.2em;
+}
+.added_total {
+  margin-right: 5px;
+}
+
+.added_name, .added_price {
+  margin: 5px;
+  font-size: 1.2em;
+  white-space: nowrap;
+}
+
+.delete {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  color: #8c8c8c;
+}
+
+.delete:hover {
+  text-decoration: underline;
+}
+
+hr {
+  width: 100%;
+  margin: 0 3px 9px;
+  border: none;
+  border-bottom: 1px dotted #8c8c8c;
+}
+
+@media screen and (max-width: 1024px) {
+  .series_container {
+    width: 22%;
+    margin-bottom: 30px;
+  }
+
+  .cart {
+    margin: 20px auto 0;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .series_container {
+    width: 26%;
+    margin-bottom: 30px;
+  }
+
+  .cart {
+    margin: 20px auto 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .series_container {
+    width: 30%;
+    margin-bottom: 30px;
+  }
+
+  .cart {
+    margin: 20px auto 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .series_container {
+    width: 35%;
+    margin-bottom: 30px;
+  }
+
+  .cart {
+    margin: 20px auto 0;
+  }
+}
+
+@media screen and (max-width: 481px) {
+  .series_container {
+    width: 45%;
+    margin-bottom: 30px;
+  }
+
+  .cart {
+    margin: 20px auto 0;
+  }
+
+  .cart {
+    width: 100%;
+  }
+}`,
+        js: `console.log('Интернет-магазин загружен');`
+    },
+    {
+        name: "Блог",
+        // Изображение (blog.png)
+        html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Блог</title>
+</head>
+<body>
+  <header><h1>Мой блог</h1></header>
+  <main>
+    <article>
+      <h2>Первая запись</h2>
+      <p>Привет, мир!</p>
+    </article>
+  </main>
+  <footer><p>Footer info</p></footer>
+</body>
+</html>`,
+        css: `body { margin: 0; padding: 0; font-family: serif; }
+header { background: #ddd; padding: 10px; }
+main { padding: 20px; }
+article { margin-bottom: 20px; }
+footer { background: #333; color: #fff; padding: 10px; text-align: center; }`,
+        js: `console.log('Блог загружен');`
+    },
+    {
+        name: "Корпоративный сайт",
+        // Изображение (corporate.png)
+        html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Корпоративный сайт</title>
+</head>
+<body>
+  <header><h1>Корпоративный сайт</h1></header>
+  <main>
+    <section>
+      <h2>О компании</h2>
+      <p>Информация о компании</p>
+    </section>
+  </main>
+  <footer><p>Контакты компании</p></footer>
+</body>
+</html>`,
+        css: `body { margin: 0; padding: 0; font-family: Arial; }
+header { background: #eee; padding: 10px; }
+main { padding: 20px; }
+footer { background: #333; color: #fff; padding: 10px; text-align: center; }`,
+        js: `console.log('Корпоративный сайт загружен');`
+    }
+    ];
+
+    // Открытие модального окна
+    function openTemplatesModal() {
+    document.getElementById("templatesModal").classList.remove("hidden");
+    // Можно добавить body.style.overflow = "hidden"; чтобы заблокировать прокрутку фона
+}
+
+    // Закрытие модального окна
+    function closeTemplatesModal() {
+    document.getElementById("templatesModal").classList.add("hidden");
+    // Можно вернуть body.style.overflow = "auto"; чтобы разблокировать прокрутку
+}
+
+    // Применить выбранный шаблон (вставить в редакторы)
+    function applyTemplate(index) {
+    const tpl = siteTemplates[index];
+    // Вставляем в редакторы (предполагается, что htmlEditor, cssEditor, jsEditor глобальны)
+    htmlEditor.setValue(tpl.html, -1);
+    cssEditor.setValue(tpl.css, -1);
+    jsEditor.setValue(tpl.js, -1);
+
+    // Закрыть модальное окно
+    closeTemplatesModal();
+}
+
+// Навешиваем обработчик на кнопку "Шаблоны сайтов"
+document.getElementById("openTemplatesBtn").addEventListener("click", openTemplatesModal);
+
+
+
+
+// Глобальный объект для хранения новых HTML-редакторов для дополнительных страниц
+var newPageEditors = {};
+
+// Функция для скрытия главного HTML-редактора и всех динамически добавленных
+function hideAllHTMLEditors() {
+    // Скрываем главный редактор
+    document.getElementById("htmlEditor").classList.add("hidden");
+    // Скрываем редакторы новых страниц
+    for (var name in newPageEditors) {
+        var div = document.getElementById("htmlEditor_" + name);
+        if (div) {
+            div.classList.add("hidden");
+        }
+    }
+}
+
+// Функция для создания нового редактора и вкладки для новой страницы
+function createPageEditor(pageName, content) {
+    // Создаем новый контейнер для редактора внутри контейнера с id="editorContainer"
+    var container = document.getElementById("editorContainer");
+    var newDiv = document.createElement("div");
+    newDiv.id = "htmlEditor_" + pageName;
+    newDiv.className = "absolute inset-0 overflow-auto hidden"; // по умолчанию скрыт
+    container.appendChild(newDiv);
+
+    // Инициализируем Ace Editor для нового контейнера
+    var editor = ace.edit(newDiv);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/html");
+    editor.setValue(content || "", -1);
+    newPageEditors[pageName] = editor;
+
+    // Добавляем новую вкладку для переключения на этот редактор
+    // Предполагается, что контейнер вкладок имеет id "pageTabs"
+    var tabContainer = document.getElementById("pageTabs");
+    var newTab = document.createElement("button");
+    newTab.textContent = pageName;
+    newTab.className = "text-gray-400 hover:text-gray-200 px-3 py-1";
+    newTab.addEventListener("click", function() {
+        hideAllHTMLEditors();
+        newDiv.classList.remove("hidden");
+    });
+    tabContainer.appendChild(newTab);
+}
+
+// Функция для обработки кнопки "Добавить страницу"
+function addNewPage() {
+    var pageName = prompt("Введите название новой страницы:");
+    if (!pageName) return;
+    if (newPageEditors[pageName]) {
+        alert("Страница с таким названием уже существует!");
+        return;
+    }
+    createPageEditor(pageName, "");
+    hideAllHTMLEditors();
+    // Отображаем только созданный редактор новой страницы
+    document.getElementById("htmlEditor_" + pageName).classList.remove("hidden");
+}
+
+// Привязываем обработчик к кнопке "Добавить страницу"
+document.getElementById("addPageBtn").addEventListener("click", addNewPage);
+
+// Для переключения на главный HTML-редактор добавьте обработчик для кнопки "tab-html"
+document.getElementById("tab-html").addEventListener("click", function() {
+    // Показываем главный редактор
+    document.getElementById("htmlEditor").classList.remove("hidden");
+    // Скрываем все динамические редакторы
+    for (var name in newPageEditors) {
+        var div = document.getElementById("htmlEditor_" + name);
+        if (div) {
+            div.classList.add("hidden");
+        }
+    }
+});
+
