@@ -2,167 +2,220 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Главная</title>
     <!-- Tailwind CDN -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-            rel="stylesheet"
-    />
-    <!-- Подключаем style.css -->
-    <link rel="stylesheet" href="./style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Подключаем Ace Editor для HTML, CSS, JS редакторов -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.css" />
 </head>
-
 <body class="bg-gray-200">
-<!-- Ваш Tailwind-код, адаптированный под условие: Кликаем на логотип -> Переходим на page2.html -->
-<div class="bg-gray-200 h-full w-screen"></div>
-
 <div class="fixed inset-0">
-    <nav class="fixed inset-0 z-10 h-10 bg-gray-900 opacity-100 hover:opacity-100">
-        <div class="mx-10 flex justify-between items-center">
-            <!-- ССЫЛКА НА page2.html -->
-            <a
-                    href="./page2.html"
-                    class="text-gray-200 text-2xl font-bold"
-            >
-                логотип
-            </a>
-
+    <nav class="fixed inset-0 z-10 h-12 bg-gray-900 opacity-100 hover:opacity-100">
             <div class="space-x-5">
-                <button class="text-gray-400 hover:text-gray-200 opacity-0 focus:opacity-100">
-                    загрузить
-                    <div>
-                        <div class="fixed inset-0 m-auto w-48 h-48 bg-black"></div>
-                    </div>
+                <!-- Кнопка предпросмотра -->
+                <button id="toggleTheme" class="text-gray-400 hover:text-gray-200 px-3 py-1 rounded">
+                    Сменить тему
                 </button>
-                <button class="text-gray-400 hover:text-gray-200">
-                    сохранить
+                <button class="text-gray-400 hover:text-gray-200" id="previewBtn">
+                    Предпросмотр
                 </button>
-                <button class="text-gray-400 hover:text-gray-200">
-                    новый проект
+                <button class="text-gray-400 hover:text-gray-200" id="newProjectBtn">
+                    Новый проект
                 </button>
+                <button class="text-gray-400 hover:text-gray-200" id="saveProjectBtn">
+                    Сохранить
+                </button>
+            </div>
+    </nav>
+
+    <!-- Левый сайдбар с шаблонами -->
+    <nav class="fixed inset-y-0 left-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100 overflow-y-auto">
+        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">Шаблоны элементов</div>
+        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
+
+        <!-- Прокручиваемая часть с шаблонами -->
+        <div class="mx-2 space-y-2">
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('header')">Хедер</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('footer')">Футер</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('a')">Ссылка</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('abbr')">Аббревиатура</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('address')">Контакт</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('audio')">Аудио</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('b')">Полужирный</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('blockquote')">Цитата</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('canvas')">Холст</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('caption')">Подпись таблицы</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('code')">Код</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('col')">Столбец таблицы</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('colgroup')">Группа столбцов</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('data')">Данные</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('datalist')">Список данных</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dd')">Описание</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('del')">Удаленный текст</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('details')">Детали</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dfn')">Термин</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dialog')">Диалог</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('div')">Контейнер</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('element')">Комментарии</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('doctype')">DOCTYPE</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('area')">Область карты</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('article')">Статья</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('aside')">Побочный контент</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('base')">Базовый адрес</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('bdo')">Направление текста</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('cite')">Источник цитаты</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('colgroup')">Группа столбцов</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('data')">Данные</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('datalist')">Список данных</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dd')">Описание</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('del')">Удаленный текст</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('details')">Детали</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dfn')">Термин</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dialog')">Диалог</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('div')">Контейнер</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dl')">Список терминов</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('dt')">Термин списка</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('em')">Акцент на важности</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('embed')">Встраиваемый контент</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('fieldset')">Группировка формы</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figcaption')">Подпись фото</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('figure')">Изображение</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('footer')">Футер</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('form')">Форма</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h1')">Заголовок 1</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h2')">Заголовок 2</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h3')">Заголовок 3</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h4')">Заголовок 4</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h5')">Заголовок 5</button>
+            </div>
+            <div class="h-12 flex justify-center items-center">
+                <button class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200" onclick="insertTemplate('h6')">Заголовок 6</button>
             </div>
         </div>
     </nav>
 
-    <nav
-            class="fixed inset-y-0 left-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100"
-    >
-        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">
-            шаблоны элементов
+
+    <div class="ml-48 mt-12 flex flex-col" style="width: calc(100vw - 12rem); height: calc(100vh - 3rem);">
+        <!-- Панель переключения редакторов -->
+        <div class="flex space-x-4 p-2 bg-gray-900">
+            <button id="tab-html" class="text-gray-400 hover:text-gray-200">HTML</button>
+            <button id="tab-css" class="text-gray-400 hover:text-gray-200">CSS</button>
+            <button id="tab-js" class="text-gray-400 hover:text-gray-200">JS</button>
         </div>
-        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
-
-        <div class="mx-2 h-12 flex justify-center items-center">
-            <button
-                    class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
-            >
-                <img
-                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                        class="-mx-8 w-10 h-5"
-                />
-                slider
-            </button>
+        <!-- Контейнер редакторов с прокруткой -->
+        <div id="editorContainer" class="relative flex-grow overflow-auto">
+            <div id="htmlEditor" class="absolute inset-0 overflow-auto"></div>
+            <div id="cssEditor" class="absolute inset-0 hidden overflow-auto"></div>
+            <div id="jsEditor" class="absolute inset-0 hidden overflow-auto"></div>
         </div>
-
-        <div class="mx-2 h-12 flex justify-center items-center">
-            <button
-                    class="bg-gray-700 bg-opacity-95 rounded-lg h-10 w-48 text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
-            >
-                <img
-                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                        class="-mx-8 w-10 h-5"
-                />
-                slider
-            </button>
-        </div>
-    </nav>
-
-    <nav
-            class="fixed inset-y-0 right-0 bg-gray-800 bg-opacity-95 h-screen w-48 opacity-100 hover:opacity-100"
-    >
-        <div class="mt-10 mx-2 h-10 text-gray-300 flex justify-center items-center">
-            иерархия элементов
-        </div>
-        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
-
-        <div class="mx-2 mt-1 h-2/5 flex justify-center">
-            <div
-                    class="bg-gray-900 rounded bg-opacity-60 h-full w-48 text-gray-400 hover:text-gray-200 flex justify-around overflow-auto shadow-2xl"
-            >
-                <nav>
-                    <div class="h-7 flex justify-center items-center">
-                        <div
-                                class="bg-gray-700 bg-opacity-95 rounded h-6 w-40 text-sm text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
-                        >
-                            <img
-                                    src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                                    class="-mx-8 w-8 h-4"
-                            />
-                            slider
-                        </div>
-                    </div>
-
-                    <div class="h-7 flex justify-center items-center">
-                        <div
-                                class="bg-gray-700 bg-opacity-95 rounded h-6 w-40 text-sm text-gray-400 hover:text-gray-200 hover:bg-gray-600 flex justify-around items-center"
-                        >
-                            <img
-                                    src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                                    class="-mx-8 w-8 h-4"
-                            />
-                            slider
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-
-        <div class="mx-2 h-10 text-gray-300 flex justify-center items-center">
-            css редактор
-        </div>
-        <div class="bg-gray-500 border border-gray-700 h-1 w-full"></div>
-
-        <div class="mx-2 mt-1 h-2/5 flex justify-center">
-            <div
-                    class="bg-gray-900 rounded bg-opacity-60 h-full w-48 text-gray-400 flex overflow-auto shadow-2xl"
-            >
-                <nav>
-                    <div
-                            class="bg-opacity-95 rounded h-6 w-full text-sm text-gray-400 flex justify-between items-center"
-                    >
-                        <div class="flex items-center">
-                            <button class="mx-1 mr-2">
-                                <img
-                                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                                        class="w-4 h-4"
-                                />
-                            </button>
-                            slider
-                        </div>
-                        <input class="bg-gray-900 w-1/2 h-4 mr-1" />
-                    </div>
-
-                    <div
-                            class="bg-opacity-95 rounded h-6 w-full text-sm text-gray-400 flex justify-between items-center"
-                    >
-                        <div class="flex items-center">
-                            <button class="mx-1 mr-2">
-                                <img
-                                        src="https://avatars.mds.yandex.net/i?id=f64710d1da958f2fc884be6cb109e1faa58442e8ddd00328-5268818-images-thumbs&n=13"
-                                        class="w-4 h-4"
-                                />
-                            </button>
-                            slider
-                        </div>
-                        <input class="bg-gray-900 w-1/2 h-4 mr-1" />
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </nav>
-</div>
+    </div>
 
 <!-- Подключаем JS конструктора -->
-<script src="./main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
