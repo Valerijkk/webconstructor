@@ -39,7 +39,7 @@
    ```
 3. Склонируйте репозиторий:
    ```bash
-   git clone https://example.com/your-repo.git
+   git clone 
    cd your-repo
    ```
 4. Установите зависимости:
