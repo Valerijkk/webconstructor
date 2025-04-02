@@ -975,3 +975,17 @@ document.getElementById("tab-html").addEventListener("click", function() {
     }
 });
 
+
+//кнопка полезных материалов
+document.getElementById("litBtn").addEventListener("click", () => {
+    window.open("https://developer.mozilla.org/en-US/docs/Web", "_blank");
+});
+
+
+
+//кнопка помощь ии
+document.getElementById("aiHelpBtn").addEventListener("click", () => {
+    window.open("https://www.blackbox.ai/", "_blank");
+});
+
+
