@@ -975,3 +975,6 @@ document.getElementById("tab-html").addEventListener("click", function() {
     }
 });
 
+document.getElementById("litBtn").addEventListener("click", () => {
+    window.open("https://developer.mozilla.org/en-US/docs/Web", "_blank");
+});
