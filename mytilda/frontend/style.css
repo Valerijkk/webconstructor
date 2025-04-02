@@ -1,135 +1,247 @@
-/* Общий сброс стилей */
-*,
-*::before,
-*::after {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Base Reset & Global Styles */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-/* Фон страницы с градиентом */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    color: #333;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* Верхняя навигация */
+/* Navbar Animation */
 nav.fixed.inset-0 {
-    background: #1a202c;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideDown 1s ease-out;
 }
 
-nav.fixed.inset-0 .space-x-5 > button {
-    background: transparent;
-    border: none;
-    color: #cbd5e0;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s, color 0.3s;
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
-nav.fixed.inset-0 .space-x-5 > button:hover {
-    color: #edf2f7;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 0.375rem;
+/* Sidebar Animation */
+nav.fixed.inset-y-0.left-0 {
+    animation: slideRight 0.8s ease-out;
 }
 
-/* Контейнер для вкладок страниц */
-#pageTabs {
-    margin-top: 0.5rem;
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
-#pageTabs button {
-    background: #edf2f7;
-    border: none;
-    padding: 0.5rem 1rem;
-    margin-right: 0.5rem;
-    border-radius: 0.375rem;
-    transition: background 0.3s, transform 0.3s;
-    cursor: pointer;
+/* Button Styles */
+button {
+    transition: all 0.3s ease;
 }
 
-#pageTabs button:hover {
-    background: #e2e8f0;
-    transform: translateY(-2px);
+button:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Модальное окно шаблонов */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
+}
+
+/* Special Animation for Theme Toggle */
+#toggleTheme {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* Modal Animations */
 #templatesModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(26, 32, 44, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-/* Если у модального окна добавлен класс hidden – оно скрыто */
-#templatesModal.hidden {
-    display: none !important;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 #templatesModal > div {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 50%;
-    max-width: 800px;
-    animation: fadeIn 0.3s ease-out;
+    animation: popIn 0.4s ease-out;
 }
 
-/* Анимация появления модального окна */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-/* Левый сайдбар шаблонов */
-nav.fixed.inset-y-0.left-0 {
-    background: #2d3748;
-    width: 12rem;
-    padding-top: 1rem;
-    overflow-y: auto;
+/* Image Hover in Modal */
+#templatesModal img {
+    transition: transform 0.4s ease;
 }
 
-nav.fixed.inset-y-0.left-0 h2,
-nav.fixed.inset-y-0.left-0 p {
-    color: #e2e8f0;
+#templatesModal img:hover {
+    transform: scale(1.1);
 }
 
-nav.fixed.inset-y-0.left-0 button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #4a5568;
-    border: none;
-    color: #cbd5e0;
-    transition: background 0.3s;
-    cursor: pointer;
+/* Elegant Link Hover */
+a {
+    transition: color 0.3s ease;
 }
 
-nav.fixed.inset-y-0.left-0 button:hover {
+a:hover {
+    color: #2b6cb0;
+}
+
+/* Headings with Text Shadow */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #a0aec0;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
     background: #718096;
 }
 
-/* Контейнер редакторов */
-#editorContainer {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
+/* Additional Dynamic Content Animation */
+.dynamic-content {
+    animation: slideUp 0.6s ease-out;
 }
 
-/* Основные редакторы (HTML, CSS, JS) */
-#htmlEditor,
-#cssEditor,
-#jsEditor {
-    font-size: 1rem;
-    line-height: 1.5;
+@keyframes slideUp {
+    from {
+        transform: translateY(20%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-/* Класс для скрытия элементов */
-.hidden {
-    display: none;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    nav.fixed.inset-0,
+    nav.fixed.inset-y-0.left-0 {
+        animation: none;
+    }
+}
+
+/* ======================= */
+/*       DARK THEME        */
+/* ======================= */
+/* Добавляем класс .dark на <html> или <body> (в JS) для активации */
+.dark body {
+    background: linear-gradient(135deg, #2d3748, #1a202c) !important;
+    color: #e2e8f0 !important;
+}
+
+.dark nav.fixed.inset-0 {
+    background-color: #1a202c !important;
+}
+
+.dark nav.fixed.inset-y-0.left-0 {
+    background-color: #2d3748 !important;
+}
+
+.dark button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Изменение цвета скроллбара в темном режиме */
+.dark ::-webkit-scrollbar-track {
+    background: #4a5568;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #2d3748;
+}
+
+/* Пример: тёмные стили для модального окна */
+.dark #templatesModal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Если нужно затемнить содержимое модалки ещё сильнее */
+.dark #templatesModal > div {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+/* ======================= */
+/*    DARK THEME FIXES     */
+/* ======================= */
+
+/* Если вы переключаете тему, добавляя класс .dark к элементу <html>,
+   тогда нужно переопределять tailwind-классы типа bg-gray-900, text-gray-400 и т.д. */
+
+/* Темный фон хедера, который изначально .bg-gray-900 */
+.dark .bg-gray-900 {
+    background-color: #333333 !important;
+}
+
+/* Аналогично, если у вас используется .bg-gray-800 */
+.dark .bg-gray-800 {
+    background-color: #2d3748 !important;
+}
+
+/* Кнопки / сайдбар / элементы с .bg-gray-700 */
+.dark .bg-gray-700 {
+    background-color: #444444 !important;
+}
+
+/* Текст, который изначально .text-gray-400 */
+.dark .text-gray-400 {
+    color: #cfcfcf !important;
+}
+
+/* Ховер по тексту .hover\:text-gray-200 */
+.dark .hover\:text-gray-200:hover {
+    color: #ffffff !important;
+}
+
+/* Если нужно менять прозрачность в .bg-opacity-95
+   (чтобы не было слишком темно или светло в dark-режиме) */
+.dark .bg-opacity-95 {
+    background-color: rgba(68, 68, 68, 0.95) !important;
+    /* можно выбрать другой цвет */
+    opacity: 1 !important;
+}
+
+/* Пример, если хотите более мягкую анимацию при переключении */
+.dark body {
+    background: linear-gradient(135deg, #2d3748, #1a202c) !important;
+    color: #e2e8f0 !important;
+    transition: background 0.5s ease, color 0.5s ease;
 }
