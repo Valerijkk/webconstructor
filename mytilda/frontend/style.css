@@ -1,5 +1,3 @@
-/* stales.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* Base Reset & Global Styles */
@@ -13,7 +11,7 @@ body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     overflow-x: hidden;
-    transition: background 0.5s ease;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* Navbar Animation */
@@ -95,8 +93,6 @@ button:focus {
     }
 }
 
-
-
 /* Image Hover in Modal */
 #templatesModal img {
     transition: transform 0.4s ease;
@@ -161,4 +157,91 @@ h1, h2, h3, h4, h5, h6 {
     nav.fixed.inset-y-0.left-0 {
         animation: none;
     }
+}
+
+/* ======================= */
+/*       DARK THEME        */
+/* ======================= */
+/* Добавляем класс .dark на <html> или <body> (в JS) для активации */
+.dark body {
+    background: linear-gradient(135deg, #2d3748, #1a202c) !important;
+    color: #e2e8f0 !important;
+}
+
+.dark nav.fixed.inset-0 {
+    background-color: #1a202c !important;
+}
+
+.dark nav.fixed.inset-y-0.left-0 {
+    background-color: #2d3748 !important;
+}
+
+.dark button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Изменение цвета скроллбара в темном режиме */
+.dark ::-webkit-scrollbar-track {
+    background: #4a5568;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #2d3748;
+}
+
+/* Пример: тёмные стили для модального окна */
+.dark #templatesModal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Если нужно затемнить содержимое модалки ещё сильнее */
+.dark #templatesModal > div {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+/* ======================= */
+/*    DARK THEME FIXES     */
+/* ======================= */
+
+/* Если вы переключаете тему, добавляя класс .dark к элементу <html>,
+   тогда нужно переопределять tailwind-классы типа bg-gray-900, text-gray-400 и т.д. */
+
+/* Темный фон хедера, который изначально .bg-gray-900 */
+.dark .bg-gray-900 {
+    background-color: #333333 !important;
+}
+
+/* Аналогично, если у вас используется .bg-gray-800 */
+.dark .bg-gray-800 {
+    background-color: #2d3748 !important;
+}
+
+/* Кнопки / сайдбар / элементы с .bg-gray-700 */
+.dark .bg-gray-700 {
+    background-color: #444444 !important;
+}
+
+/* Текст, который изначально .text-gray-400 */
+.dark .text-gray-400 {
+    color: #cfcfcf !important;
+}
+
+/* Ховер по тексту .hover\:text-gray-200 */
+.dark .hover\:text-gray-200:hover {
+    color: #ffffff !important;
+}
+
+/* Если нужно менять прозрачность в .bg-opacity-95
+   (чтобы не было слишком темно или светло в dark-режиме) */
+.dark .bg-opacity-95 {
+    background-color: rgba(68, 68, 68, 0.95) !important;
+    /* можно выбрать другой цвет */
+    opacity: 1 !important;
+}
+
+/* Пример, если хотите более мягкую анимацию при переключении */
+.dark body {
+    background: linear-gradient(135deg, #2d3748, #1a202c) !important;
+    color: #e2e8f0 !important;
+    transition: background 0.5s ease, color 0.5s ease;
 }
