@@ -16,9 +16,16 @@ import (
 //go:embed frontend/*.html
 //go:embed frontend/*.js
 //go:embed frontend/*.css
-//go:embed frontend/logo-valera.png
+//go:embed frontend/shop.png
 //go:embed frontend/blog.png
-//go:embed frontend/logo.png
+//go:embed frontend/corporate.png
+//go:embed frontend/template4.png
+//go:embed frontend/template5.png
+//go:embed frontend/template6.png
+//go:embed frontend/template7.png
+//go:embed frontend/template8.png
+//go:embed frontend/template9.png
+//go:embed frontend/template10.png
 var assets embed.FS
 
 // Project - структура для проекта
