@@ -534,11 +534,11 @@ document.getElementById("toggleTheme").addEventListener("click", () => {
 
 
     // Пример массива шаблонов сайтов
-    const siteTemplates = [
+const siteTemplates = [
     {
         name: "Интернет-магазин",
-        // Изображение уже прописали выше (shop.png)
-        html: `<html lang="en">
+        html: `<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -578,7 +578,32 @@ document.getElementById("toggleTheme").addEventListener("click", () => {
           <p class="price">€7.99</p>
           <button onclick="addToBag(this)" class="buy">ADD TO BAG</button>
         </div>
-        <div `,
+        <div class="series_container">
+          <h2 class="name">Obi-Wan Kenobi <br><span class="year">(2022)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">7.1</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">
+            The Book of Boba Fett <br><span class="year">(2021-2022)</span>
+          </h2>
+          <p class="imdb">IMDb RATING: <span class="review">7.2</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+      </div>
+      <div class="cart">
+        <div class="added_items"></div>
+        <div class="total_container">
+          <p class="total">TOTAL PURCHASE</p>
+          <p class="added_total">€0</p>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>`,
         css: `html {
   background-image: url("https://cdn.pixabay.com/photo/2019/12/23/11/08/space-4714327_1280.jpg");
   background-repeat: no-repeat;
@@ -817,34 +842,508 @@ hr {
     },
     {
         name: "Блог",
-        // Изображение (blog.png)
         html: `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Блог</title>
-</head>
-<body>
-  <header><h1>Мой блог</h1></header>
-  <main>
-    <article>
-      <h2>Первая запись</h2>
-      <p>Привет, мир!</p>
-    </article>
-  </main>
-  <footer><p>Footer info</p></footer>
-</body>
-</html>`,
-        css: `body { margin: 0; padding: 0; font-family: serif; }
-header { background: #ddd; padding: 10px; }
-main { padding: 20px; }
-article { margin-bottom: 20px; }
-footer { background: #333; color: #fff; padding: 10px; text-align: center; }`,
-        js: `console.log('Блог загружен');`
+  <header id="site-header">
+    <div class="container">
+      <h1>Shopping cart <span>[</span> <em><a href="https://codepen.io/tag/rodeo-007" target="_blank">CodePen Challange</a></em> <span class="last-span is-open">]</span></h1>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <section id="cart"> 
+      <article class="product">
+        <header>
+          <a class="remove">
+            <img src="http://www.astudio.si/preview/blockedwp/wp-content/uploads/2012/08/1.jpg" alt="">
+
+            <h3>Remove product</h3>
+          </a>
+        </header>
+
+        <div class="content">
+
+          <h1>Lorem ipsum</h1>
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, numquam quis perspiciatis ea ad omnis provident laborum dolore in atque.
+
+          <div title="You have selected this product to be shipped in the color yellow." style="top: 0" class="color yellow"></div>
+          <div style="top: 43px" class="type small">XXL</div>
+        </div>
+
+        <footer class="content">
+          <span class="qt-minus">-</span>
+          <span class="qt">2</span>
+          <span class="qt-plus">+</span>
+
+          <h2 class="full-price">
+            29.98€
+          </h2>
+
+          <h2 class="price">
+            14.99€
+          </h2>
+        </footer>
+      </article>
+
+      <article class="product">
+        <header>
+          <a class="remove">
+            <img src="http://www.astudio.si/preview/blockedwp/wp-content/uploads/2012/08/3.jpg" alt="">
+
+            <h3>Remove product</h3>
+          </a>
+        </header>
+
+        <div class="content">
+
+          <h1>Lorem ipsum dolor</h1>
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, numquam quis perspiciatis ea ad omnis provident laborum dolore in atque.
+
+          <div title="You have selected this product to be shipped in the color red." style="top: 0" class="color red"></div>
+          <div title="You have selected this product to be shipped sized Small."  style="top: 43px" class="type small">Small</div>
+        </div>
+
+        <footer class="content">
+          
+          <span class="qt-minus">-</span>
+          <span class="qt">1</span>
+          <span class="qt-plus">+</span>
+
+          <h2 class="full-price">
+            79.99€
+          </h2>
+
+          <h2 class="price">
+            79.99€
+          </h2>
+        </footer>
+      </article>
+
+      <article class="product">
+        <header>
+          <a class="remove">
+            <img src="http://www.astudio.si/preview/blockedwp/wp-content/uploads/2012/08/5.jpg" alt="">
+
+            <h3>Remove product</h3>
+          </a>
+        </header>
+
+        <div class="content">
+
+          <h1>Lorem ipsum dolor ipsdu</h1>
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, numquam quis perspiciatis ea ad omnis provident laborum dolore in atque.
+
+          <div title="You have selected this product to be shipped in the color blue." style="top: 0" class="color blue"></div>
+          <div style="top: 43px" class="type small">Large</div>
+        </div>
+
+        <footer class="content">
+          
+          <span class="qt-minus">-</span>
+          <span class="qt">3</span>
+          <span class="qt-plus">+</span>
+
+          <h2 class="full-price">
+            53.99€
+          </h2>
+
+          <h2 class="price">
+            17.99€
+          </h2>
+        </footer>
+      </article>
+
+    </section>
+
+  </div>
+
+  <footer id="site-footer">
+    <div class="container clearfix">
+
+      <div class="left">
+        <h2 class="subtotal">Subtotal: <span>163.96</span>€</h2>
+        <h3 class="tax">Taxes (5%): <span>8.2</span>€</h3>
+        <h3 class="shipping">Shipping: <span>5.00</span>€</h3>
+      </div>
+
+      <div class="right">
+        <h1 class="total">Total: <span>177.16</span>€</h1>
+        <a class="btn">Checkout</a>
+      </div>
+
+    </div>
+  </footer>`,
+        css: `body {
+  background: #eee;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;  
+}
+
+#site-header, #site-footer {
+  background: #fff;
+}
+
+#site-header {
+  margin: 0 0 30px 0;
+}
+
+#site-header h1 {
+  font-size: 31px;
+  font-weight: 300;
+  padding: 40px 0;
+  position: relative;
+  margin: 0;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+
+  -webkit-transition: color .2s linear;
+  -moz-transition: color .2s linear;
+  -ms-transition: color .2s linear;
+  -o-transition: color .2s linear;
+  transition: color .2s linear;
+}
+
+a:hover {
+  color: #53b5aa;
+}
+
+#site-header h1 span {
+  color: #53b5aa;
+}
+
+#site-header h1 span.last-span {
+  background: #fff;
+  padding-right: 150px;
+  position: absolute;
+  left: 217px;
+
+  -webkit-transition: all .2s linear;
+  -moz-transition: all .2s linear;
+  -ms-transition: all .2s linear;
+  -o-transition: all .2s linear;
+  transition: all .2s linear;
+}
+
+#site-header h1:hover span.last-span, #site-header h1 span.is-open {
+  left: 363px;
+}
+
+#site-header h1 em {
+  font-size: 16px;
+  font-style: normal;
+  vertical-align: middle;
+}
+
+.container {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0 auto;
+  width: 980px;
+}
+
+#cart {
+  width: 100%;
+}
+
+#cart h1 {
+  font-weight: 300;
+}
+
+#cart a {
+  color: #53b5aa;
+  text-decoration: none;
+
+  -webkit-transition: color .2s linear;
+  -moz-transition: color .2s linear;
+  -ms-transition: color .2s linear;
+  -o-transition: color .2s linear;
+  transition: color .2s linear;
+}
+
+#cart a:hover {
+  color: #000;
+}
+
+.product.removed {
+  margin-left: 980px !important;
+  opacity: 0;
+}
+
+.product {
+  border: 1px solid #eee;
+  margin: 20px 0;
+  width: 100%;
+  height: 195px;
+  position: relative;
+
+  -webkit-transition: margin .2s linear, opacity .2s linear;
+  -moz-transition: margin .2s linear, opacity .2s linear;
+  -ms-transition: margin .2s linear, opacity .2s linear;
+  -o-transition: margin .2s linear, opacity .2s linear;
+  transition: margin .2s linear, opacity .2s linear;
+}
+
+.product img {
+  width: 100%;
+  height: 100%;
+}
+
+.product header, .product .content {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-style: none none solid none;
+  float: left;
+}
+
+.product header {
+  background: #000;
+  margin: 0 1% 20px 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 24%;
+  height: 195px;
+}
+
+.product header:hover img {
+  opacity: .7;
+}
+
+.product header:hover h3 {
+  bottom: 73px;
+}
+
+.product header h3 {
+  background: #53b5aa;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 49px;
+  margin: 0;
+  padding: 0 30px;
+  position: absolute;
+  bottom: -50px;
+  right: 0;
+  left: 0;
+
+  -webkit-transition: bottom .2s linear;
+  -moz-transition: bottom .2s linear;
+  -ms-transition: bottom .2s linear;
+  -o-transition: bottom .2s linear;
+  transition: bottom .2s linear;
+}
+
+.remove {
+  cursor: pointer;
+}
+
+.product .content {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 140px;
+  padding: 0 20px;
+  width: 75%;
+}
+
+.product h1 {
+  color: #53b5aa;
+  font-size: 25px;
+  font-weight: 300;
+  margin: 17px 0 20px 0;
+}
+
+.product footer.content {
+  height: 50px;
+  margin: 6px 0 0 0;
+  padding: 0;
+}
+
+.product footer .price {
+  background: #fcfcfc;
+  color: #000;
+  float: right;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 49px;
+  margin: 0;
+  padding: 0 30px;
+}
+
+.product footer .full-price {
+  background: #53b5aa;
+  color: #fff;
+  float: right;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 49px;
+  margin: 0;
+  padding: 0 30px;
+
+  -webkit-transition: margin .15s linear;
+  -moz-transition: margin .15s linear;
+  -ms-transition: margin .15s linear;
+  -o-transition: margin .15s linear;
+  transition: margin .15s linear;
+}
+
+.qt, .qt-plus, .qt-minus {
+  display: block;
+  float: left;
+}
+
+.qt {
+  font-size: 19px;
+  line-height: 50px;
+  width: 70px;
+  text-align: center;
+}
+
+.qt-plus, .qt-minus {
+  background: #fcfcfc;
+  border: none;
+  font-size: 30px;
+  font-weight: 300;
+  height: 100%;
+  padding: 0 20px;
+  -webkit-transition: background .2s linear;
+  -moz-transition: background .2s linear;
+  -ms-transition: background .2s linear;
+  -o-transition: background .2s linear;
+  transition: background .2s linear;
+}
+
+.qt-plus:hover, .qt-minus:hover {
+  background: #53b5aa;
+  color: #fff;
+  cursor: pointer;
+}
+
+.qt-plus {
+  line-height: 50px;
+}
+
+.qt-minus {
+  line-height: 47px;
+}
+
+#site-footer {
+  margin: 30px 0 0 0;
+}
+
+#site-footer {
+  padding: 40px;
+}
+
+#site-footer h1 {
+  background: #fcfcfc;
+  border: 1px solid #ccc;
+  border-style: none none solid none;
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0 0 7px 0;
+  padding: 14px 40px;
+  text-align: center;
+}
+
+#site-footer h2 {
+  font-size: 24px;
+  font-weight: 300;
+  margin: 10px 0 0 0;
+}
+
+#site-footer h3 {
+  font-size: 19px;
+  font-weight: 300;
+  margin: 15px 0;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.btn {
+  background: #53b5aa;
+  border: 1px solid #999;
+  border-style: none none solid none;
+  cursor: pointer;
+  display: block;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 300;
+  padding: 16px 0;
+  width: 290px;
+  text-align: center;
+
+  -webkit-transition: all .2s linear;
+  -moz-transition: all .2s linear;
+  -ms-transition: all .2s linear;
+  -o-transition: all .2s linear;
+  transition: all .2s linear;
+}
+
+.btn:hover {
+  color: #fff;
+  background: #429188;
+}
+
+.type {
+  background: #fcfcfc;
+  font-size: 13px;
+  padding: 10px 16px;
+  left: 100%;
+}
+
+.type, .color {
+  border: 1px solid #ccc;
+  border-style: none none solid none;
+  position: absolute;
+}
+
+.color {
+  width: 40px;
+  height: 40px;
+  right: -40px;
+}
+
+.red {
+  background: #cb5a5e;
+}
+
+.yellow {
+  background: #f1c40f;
+}
+
+.blue {
+  background: #3598dc;
+}
+
+.minused {
+  margin: 0 50px 0 0 !important;
+}
+
+.added {
+  margin: 0 -50px 0 0 !important;
+}`,
+        js: `console.log('Магазин загружен');`
     },
     {
         name: "Корпоративный сайт",
-        // Изображение (corporate.png)
         html: `<!DOCTYPE html>
 <html>
 <head>
@@ -867,8 +1366,181 @@ header { background: #eee; padding: 10px; }
 main { padding: 20px; }
 footer { background: #333; color: #fff; padding: 10px; text-align: center; }`,
         js: `console.log('Корпоративный сайт загружен');`
+    },
+    {
+        name: "Landing Page",
+        html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Landing Page</title>
+</head>
+<body>
+  <section class="hero">
+    <h1>Уникальное торговое предложение</h1>
+    <p>Небольшое пояснение, почему ваш продукт лучший</p>
+    <button>Купить</button>
+  </section>
+</body>
+</html>`,
+        css: `.hero {
+  background: #f5f5f5;
+  text-align: center;
+  padding: 50px;
+}
+button {
+  padding: 10px 20px;
+  background: #007acc;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}`,
+        js: `console.log('Landing Page загружен');`
+    },
+    {
+        name: "Портфолио",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Портфолио</title>
+</head>
+<body>
+  <header><h1>Мое Портфолио</h1></header>
+  <section class="works">
+    <div class="work-item">Проект 1</div>
+    <div class="work-item">Проект 2</div>
+    <div class="work-item">Проект 3</div>
+  </section>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: sans-serif; }
+header { background:#333; color:#fff; padding:20px; text-align:center; }
+.works { display:flex; justify-content:space-around; margin:20px; }
+.work-item { background:#eee; padding:20px; width:100px; text-align:center; }`,
+        js: `console.log('Портфолио загружено');`
+    },
+    {
+        name: "Новостной сайт",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Новостной сайт</title>
+</head>
+<body>
+  <header><h1>Главные новости</h1></header>
+  <article>
+    <h2>Первая новость</h2>
+    <p>Содержимое первой новости...</p>
+  </article>
+  <article>
+    <h2>Вторая новость</h2>
+    <p>Содержимое второй новости...</p>
+  </article>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: sans-serif; }
+header { background:#444; color:#fff; padding:15px; text-align:center; }
+article { border-bottom:1px solid #ccc; padding:10px 20px; }`,
+        js: `console.log('Новостной сайт загружен');`
+    },
+    {
+        name: "Ресторан",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ресторан</title>
+</head>
+<body>
+  <header><h1>Наш Ресторан</h1></header>
+  <section class="menu">
+    <h2>Меню</h2>
+    <ul>
+      <li>Блюдо 1</li>
+      <li>Блюдо 2</li>
+      <li>Блюдо 3</li>
+    </ul>
+  </section>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: Georgia, serif; }
+header { background:#cc0000; color:#fff; padding:15px; text-align:center; }
+.menu { padding:20px; }
+ul { list-style-type: circle; }`,
+        js: `console.log('Ресторанный шаблон загружен');`
+    },
+    {
+        name: "Фотогалерея",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Фотогалерея</title>
+</head>
+<body>
+  <header><h1>Моя Галерея</h1></header>
+  <div class="gallery">
+    <div class="photo">Фото 1</div>
+    <div class="photo">Фото 2</div>
+    <div class="photo">Фото 3</div>
+  </div>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: sans-serif; }
+header { background:#444; color:#fff; padding:20px; text-align:center; }
+.gallery { display:flex; justify-content:space-around; margin:20px; }
+.photo { width:100px; height:100px; background:#ccc; display:flex; align-items:center; justify-content:center; }`,
+        js: `console.log('Фотогалерея загружена');`
+    },
+    {
+        name: "Фитнес",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Фитнес</title>
+</head>
+<body>
+  <header><h1>Фитнес Центр</h1></header>
+  <section>
+    <h2>Наши программы</h2>
+    <ul>
+      <li>Силовые тренировки</li>
+      <li>Кардио</li>
+      <li>Йога</li>
+    </ul>
+  </section>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: Arial, sans-serif; }
+header { background:#2f4f4f; color:#fff; padding:20px; text-align:center; }
+section { padding:20px; }`,
+        js: `console.log('Фитнес шаблон загружен');`
+    },
+    {
+        name: "Обучающий сайт",
+        html: `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Обучающий сайт</title>
+</head>
+<body>
+  <header><h1>Онлайн Академия</h1></header>
+  <section class="lessons">
+    <h2>Уроки</h2>
+    <p>Здесь будут представлены уроки и материалы</p>
+  </section>
+</body>
+</html>`,
+        css: `body { margin:0; padding:0; font-family: sans-serif; }
+header { background:#003366; color:#fff; padding:15px; text-align:center; }
+.lessons { margin:20px; }`,
+        js: `console.log('Обучающий сайт загружен');`
     }
-    ];
+];
 
     // Открытие модального окна
     function openTemplatesModal() {
