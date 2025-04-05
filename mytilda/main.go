@@ -17,7 +17,7 @@ import (
 //go:embed frontend/*.js
 //go:embed frontend/*.css
 //go:embed frontend/logo-valera.png
-//go:embed frontend/image_2025-02-26_14-29-11.png
+//go:embed frontend/blog.png
 //go:embed frontend/logo.png
 var assets embed.FS
 
