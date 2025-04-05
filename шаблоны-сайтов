@@ -2705,3 +2705,605 @@ window.addEventListener("load", event => {
 
 
 
+<!--4-->
+<!--html-->
+<div id="app">
+  <header>
+    <div class="container alignment-container">
+      <div class="logo">
+        <h1 class="logo__title"><a class="logo__title-link" href="#" @click.prevent="goToHomePage">Vue's <br> Bookshop</a></h1>
+      </div>
+      <div class="cart-header-info">
+        <span class="cart-header-info__text">Your cart has {{ cartItems.length }} items</span>
+        <a href="#" type="button" class="cart-header-info__link" @click.prevent="displayCartView">View cart</a>
+      </div>
+    </div>
+    <!-- container -->
+    <div class="hero">
+      <div class="container">
+        <h2 class="display-title">
+          Make learning your greatest pleasure!
+        </h2>
+        <button class="hero__btn">Start now!</button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h2 class="page-title">{{ pageTitle }}</h2>
+    <div v-if="!isCartView" class="container products-container">
+      <div class="prod-card" v-for="product in products">
+        <img :src="product.imgSrc" alt="" class="prod-card__image">
+        <div class="prod-card__info">
+          <h4 class="prod-card__title">{{ product.name }}</h4>
+          <p class="prod-card__description">{{ product.description }}</p>
+          <div class="alignment-container">
+            <p class="prod-card__price">${{ product.price }}</p>
+            <p :class="{'not-in-stock': product.inStock === 0}" class="prod-card__in-stock">In stock: {{ product.inStock }}</p>
+          </div>
+          <!--/.alignment-container -->
+
+        </div>
+        <!--/card__info-->
+        <button :disabled="product.inStock === 0 ? true : false" class="prod-card__btn" id="add-to-cart" type="button" @click.prevent="addProdToCart(product)">Add to Cart</button>
+      </div>
+      <!--/card-->
+
+    </div>
+
+    <div v-else class="container">
+      <!-- cart view -->
+      <table v-if="cartItems.length > 0" class="cart">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="prod in cartItems">
+            <td>{{ prod.item.name }}</td>
+            <td><span class="cart__qty-text">{{ prod.quantity }}</span> <button class="cart__add-qty" @click="increaseQuantity(prod)" :disabled="prod.item.inStock === 0">+</button> <button class="cart__remove-qty" @click="decreaseQuantity(prod)" :disabled="prod.quantity === 0">-</button></td>
+            <td>${{ prod.item.price }}</td>
+          </tr>
+          <tr class="cart__total">
+            <td colspan="2">Total:</td>
+            <td>${{ calculateTotal }}</td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+            <td><button class="cart__checkout-btn" @click="checkout">Checkout</button></td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div v-else class="empty-cart">
+        <h3 class="empty-cart__message">Your cart is empty.</h3>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="container alignment-container">
+      <ul class="footer-links">
+        <li class="footer-links__list-item">
+          <a href="#" class="footer-links__link">About</a>
+        </li>
+        <li class="footer-links__list-item">
+          <a href="#" class="footer-links__link">Contact</a>
+        </li>
+        <li class="footer-links__list-item">
+          <a href="#" class="footer-links__link">Legal</a>
+        </li>
+      </ul>
+
+      <p class="footer-credits">&copy;2018 Maria Antonietta Perna</p>
+    </div>
+  </footer>
+</div>
+
+
+
+
+<--css-->
+@import url('https://fonts.googleapis.com/css?family=Bevan|Raleway:300i,400,700,800');
+
+// vars
+$body-color: #333;
+$main-color: #41b883;
+$secondary-color: #35495e;
+$tertiary-color: #cc4513;
+
+// mixins
+@mixin flex-container($xalign, $yalign) {
+  display: flex;
+  justify-content: $xalign;
+  align-items: $yalign;
+}
+
+@mixin action-btn {
+  background-color: transparent;
+  border: 2px solid $secondary-color;
+  border-radius: 5px;
+  color: $secondary-color;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  transition: all 0.3s ease-out;
+  
+  &:hover,
+  &:focus {
+    background-color: $tertiary-color;
+    border: 3px solid darken($tertiary-color, 15%) inset;
+    color: #fff;
+    transform: translatey(-3px);
+    box-shadow: 0 3px 2px rgba(0,0,0,.5);
+  }
+}
+
+@mixin disabled-btn {
+  color: lighten($secondary-color, 45%);
+  border-color: lighten($secondary-color, 45%);
+  background-color: transparent;
+
+  
+  &:disabled:hover,
+  &:disabled:focus {
+    background-color: transparent;
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+
+// general
+* {
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size:1.6rem;
+  line-height: 1.7;
+  color: $body-color;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+// reusable styles
+.container {
+  width: 100%;
+  max-width: 992px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.alignment-container {
+  @include flex-container(space-between, center);  
+}
+
+.display-title {
+  font-size: 2.8rem;
+}
+
+.page-title {
+  margin-bottom: 0;
+  font-size: 2.8rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+// layout
+header .alignment-container {
+  border-bottom: 2px dashed $secondary-color;
+}
+
+footer {
+  margin-top: 2em;
+  border-top: 2px dashed $secondary-color;
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-column-gap: 1em;
+  grid-row-gap: 2em;
+}
+
+// components
+.logo {
+  margin-right: 1em;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: $main-color;
+}
+.logo__title,
+.logo__title-link {
+  font-family: 'Bevan', cursive;
+}
+
+.logo__title-link {
+  text-decoration: none;
+  color: $main-color;
+}
+
+// shopping cart in products page
+.cart-header-info__text,
+.cart-header-info__link {
+  display: inline-block;
+}
+
+.cart-header-info__text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.cart-header-info__link {
+  text-decoration: none;
+  font-size: 1.4rem;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: $secondary-color;
+  background-color: lighten($secondary-color, 5%);
+  transition: all 0.3s ease-out;
+  
+  &:hover,
+  &:focus {
+    background-color: $secondary-color;
+    font-weight: bold;
+    box-shadow: 0 3px 2px rgba(0,0,0,.5);
+    transform: translatey(-3px);
+    border: 2px solid darken($main-color, 25%) inset;
+  }
+}
+
+// shopping cart in cart page
+.cart {
+  width: 100%;
+  border-collapse: collapse;
+  
+  tbody tr:nth-child(odd) {
+    background-color: lighten($main-color, 30%);
+  }
+  tbody td {
+    text-align: center;
+    padding: 1em;
+  }
+  
+  .cart__total {
+    background-color: $secondary-color;
+    color: #fff;
+  }
+  
+  .cart__add-qty,
+  .cart__remove-qty {
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 3px;
+    background-color: $tertiary-color;
+    border: darken($tertiary-color, 15%);
+    color: #fff;
+    
+    &:disabled {
+      @include disabled-btn;
+    }
+  }
+  
+  .cart__qty-text {
+    margin-right: 3px;
+    font-weight: 700;
+  }
+  
+  .cart__checkout-btn {
+    @include action-btn;
+  }
+}
+
+// hero block
+.hero {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(126,213,111, .5),
+    rgba(40,180,133, .5)),
+  url(https://images.unsplash.com/photo-1463320726281-696a485928c7?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=d9c9cea1805c99c465dbe9ee3ecbfd34);
+ background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  text-align: center;
+  color: #fff;
+  border-bottom: 3px dashed $secondary-color;
+  @include flex-container(center, center);
+  height: 45vh;
+}
+
+.hero__btn {
+  @include action-btn;
+  @media (min-width: 600px) {
+    font-size: 3rem;
+  }
+}
+
+// cards with products
+.prod-card__image {
+  border: 2px solid $tertiary-color;
+  border-radius: 3px;
+  padding: 1em;
+  filter: sepia(40%) contrast(200%) opacity(85%);
+  transition: filter 0.3s;
+}
+
+.prod-card:hover .prod-card__image {
+  filter: none; 
+}
+
+.prod-card__info {
+  padding: 1em;
+  line-height: 1;
+}
+
+.prod-card__title {
+  font-size: 2rem;
+  color: $secondary-color;
+}
+
+.prod-card__description {
+  line-height: 1.5;
+}
+
+.prod-card__price,
+.prod-card__in-stock {
+  background-color: $main-color;
+  color: #fff;
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.not-in-stock {
+  background-color: $tertiary-color;
+}
+
+.prod-card__btn {
+  @include action-btn;
+  
+  &:disabled {
+    @include disabled-btn;
+  }
+}
+
+.empty-cart {
+  background-color: $secondary-color;
+  color: #fff;
+  text-align: center;
+  font-size: 2.6rem;
+}
+
+// footer components
+.footer-links {
+  font-size: 1.4rem;
+}
+
+.footer-links__link {
+  color: $main-color;
+  
+  &:hover,
+  &:focus {
+    color: $secondary-color;
+  }
+}
+
+.footer-credits {
+  font-size: 1.5rem;
+}
+
+
+
+
+<!--js-->
+//Vue.config.devtools = true;
+new Vue({
+  el: "#app",
+  data: {
+    products: [
+      {
+        id: 1,
+        imgSrc:
+          "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=cc37ced2e51f9f58430dfed1192067cd",
+        name: "Learn Vue",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 50,
+        inStock: 3
+      },
+
+      {
+        id: 2,
+        imgSrc:
+          "https://images.unsplash.com/photo-1516101922849-2bf0be616449?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=506cdfe576a1dd5545a2850ac143b2be",
+        name: "Vue for Beginners",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 150,
+        inStock: 1
+      },
+
+      {
+        id: 3,
+        imgSrc:
+          "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=c9cebb448c07815ac2a1c4141b4cdd18",
+        name: "Advanced Vue Development",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 180,
+        inStock: 10
+      },
+
+      {
+        id: 4,
+        imgSrc:
+          "https://images.unsplash.com/photo-1485856407642-7f9ba0268b51?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=5a819fb0cd534e9c1af5d38c4983eeb3",
+        name: "ES6 for Everybody",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 40,
+        inStock: 8
+      },
+
+      {
+        id: 5,
+        imgSrc:
+          "https://images.unsplash.com/photo-1489875347897-49f64b51c1f8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=1174b1ff26fccde5cdfda64087bfc6ac",
+        name: "Advanced JavaScript",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 99,
+        inStock: 20
+      },
+
+      {
+        id: 6,
+        imgSrc:
+          "https://images.unsplash.com/photo-1472437774355-71ab6752b434?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=070ca0d38724c4382129ae8e0004a5ba",
+        name: "Vue and Vuex",
+        description:
+          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nobis minus! Dicta perferendis rem pariatur sapiente nobis.",
+        price: 199,
+        inStock: 0
+      }
+    ],
+
+    cartItems: [],
+
+    isCartView: false,
+    pageTitle: "Our Books"
+  },
+
+  methods: {
+    // responsible for showing the cart page
+    // when View cart button is clicked
+    displayCartView() {
+      this.isCartView = true;
+      this.pageTitle = "Your Cart";
+    },
+
+    // responsible for showing products page
+    // when logo is clicked
+    goToHomePage() {
+      this.isCartView = false;
+      this.pageTitle = "Our Books";
+    },
+
+    getCartItems(prod) {
+      if (this.cartItems.length > 0) {
+        for (let i = 0; i < this.cartItems.length; i++) {
+          if (this.cartItems[i].item.id === prod.id) {
+            this.cartItems[i].quantity++;
+          } else {
+            this.cartItems.push({
+              item: prod,
+              quantity: 1
+            });
+          }
+        }
+      }
+    },
+
+    // if the product is already in the cart,
+    // increase its quantity by 1
+    // else create a new object with the
+    // selected product info and push it
+    // into the cartItems array.
+    // Decrease stock quantity when item is
+    // added to the cart
+    addProdToCart(prod) {
+      for (let i = 0; i < this.cartItems.length; i++) {
+        if (this.cartItems[i].item.id === prod.id) {
+          this.cartItems[i].quantity++;
+          return;
+        }
+      }
+      this.cartItems.push({
+        item: prod,
+        quantity: 1
+      });
+
+      // decrease stock when product
+      // is added to the cart
+      //console.log(this.cartItems);
+      prod.inStock--;
+    },
+    
+    // + button functionality in the 
+    // cart: quantity goes up by 1,
+    // in stock goes down by 1 
+    increaseQuantity(prod) {
+      prod.quantity++;
+      prod.item.inStock--;
+    },
+    
+    // when the quantity reaches 0, the item
+    // is removed from the cart
+    removeProdFromCart(prod) {
+      const prodIndex = this.cartItems.indexOf(prod);
+      this.cartItems.splice(prodIndex, 1);
+    },
+    
+    // - button functionality in the cart: 
+    // quantity is decreased by 1,
+    // in stock is increased by 1,
+    // if quantity = 0, product is removed
+    // from the cart
+    decreaseQuantity(prod) {
+      prod.quantity--;
+      prod.item.inStock++;
+      if(prod.quantity <= 0) {
+        this.removeProdFromCart(prod);
+      }
+    },
+    
+    checkout() {
+      // remove all products from the cart
+      this.cartItems = [];
+    }
+  },
+
+  computed: {
+    // this function keeps an eye on the quantity in 
+    // the cart, which may vary as users add or remove
+    // products and calculates the total each time
+    calculateTotal() {
+      let total = 0;
+      for (let i = 0; i < this.cartItems.length; i++) {
+        total += this.cartItems[i].item.price * this.cartItems[i].quantity;
+      }
+      return total;
+    }
+  }
+});
+
+
+
+
