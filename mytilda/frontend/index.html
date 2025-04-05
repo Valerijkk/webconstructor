@@ -13,60 +13,102 @@
 <body class="bg-gray-200">
 <div class="fixed inset-0">
     <nav class="fixed inset-0 z-10 h-12 bg-gray-900 opacity-100 hover:opacity-100">
-            <div class="space-x-5">
-                <button id="toggleTheme" class="text-gray-400 hover:text-gray-200 px-3 py-1 rounded">
-                    Сменить тему
-                </button>
-                <button id="openTemplatesBtn" class="text-gray-400 hover:text-gray-200 px-3 py-1 rounded">
-                    Шаблоны сайтов
-                </button>
-                <button class="text-gray-400 hover:text-gray-200" id="previewBtn">
-                    Предпросмотр
-                </button>
-                <button class="text-gray-400 hover:text-gray-200" id="newProjectBtn">
-                    Новый проект
-                </button>
-                <button class="text-gray-400 hover:text-gray-200" id="saveProjectBtn">
-                    Сохранить
-                </button>
-                <button id="addPageBtn" class="text-gray-400 hover:text-gray-200">
-                    Добавить страницу
-                </button>
-                <button id="litBtn" class="text-gray-400 hover:text-gray-200">
-                    Полезная литература
-                </button>
-                <button id="aiHelpBtn" class="text-gray-400 hover:text-gray-200">
-                    Помощь ии
-                </button>
-            </div>
+        <div class="space-x-5">
+            <button id="toggleTheme" class="text-gray-400 hover:text-gray-200 px-3 py-1 rounded">
+                Сменить тему
+            </button>
+            <button id="openTemplatesBtn" class="text-gray-400 hover:text-gray-200 px-3 py-1 rounded">
+                Шаблоны сайтов
+            </button>
+            <button class="text-gray-400 hover:text-gray-200" id="previewBtn">
+                Предпросмотр
+            </button>
+            <button class="text-gray-400 hover:text-gray-200" id="newProjectBtn">
+                Новый проект
+            </button>
+            <button class="text-gray-400 hover:text-gray-200" id="saveProjectBtn">
+                Сохранить
+            </button>
+            <button id="addPageBtn" class="text-gray-400 hover:text-gray-200">
+                Добавить страницу
+            </button>
+            <button id="litBtn" class="text-gray-400 hover:text-gray-200">
+                Полезная литература
+            </button>
+            <button id="aiHelpBtn" class="text-gray-400 hover:text-gray-200">
+                Помощь ии
+            </button>
+        </div>
     </nav>
-
 
     <!-- Модальное окно (изначально скрыто) -->
     <div id="templatesModal"
          class="fixed inset-0 bg-gray-900 bg-opacity-80 hidden justify-center items-center z-50">
         <!-- Внутренняя часть модального окна -->
         <div class="bg-white p-4 rounded shadow-lg w-1/2 max-w-2xl relative">
-        <h2 class="text-xl font-bold mb-4">Выберите шаблон</h2>
+            <h2 class="text-xl font-bold mb-4">Выберите шаблон</h2>
 
-            <!-- Список шаблонов: картинки + названия -->
+            <!-- Список из 10 шаблонов: картинки + названия -->
             <div class="flex flex-wrap gap-4 justify-center">
-                <!-- Пример для 3-х шаблонов.
-                     В атрибуте onclick вызываем applyTemplate с индексом соответствующего шаблона а-->
+                <!-- 1 -->
                 <div class="w-1/3 text-center">
                     <img src="shop.png" alt="Интернет-магазин" class="w-full h-auto cursor-pointer"
                          onclick="applyTemplate(0)" />
                     <p class="mt-2 font-semibold">Интернет-магазин</p>
                 </div>
+                <!-- 2 -->
                 <div class="w-1/3 text-center">
                     <img src="blog.png" alt="Блог" class="w-full h-auto cursor-pointer"
                          onclick="applyTemplate(1)" />
-                    <p class="mt-2 font-semibold">Блог</p>
+                    <p class="mt-2 font-semibold">Магазинчик</p>
                 </div>
+                <!-- 3 -->
                 <div class="w-1/3 text-center">
                     <img src="corporate.png" alt="Корпоративный сайт" class="w-full h-auto cursor-pointer"
                          onclick="applyTemplate(2)" />
                     <p class="mt-2 font-semibold">Корпоративный</p>
+                </div>
+                <!-- 4 -->
+                <div class="w-1/3 text-center">
+                    <img src="template4.png" alt="Landing Page" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(3)" />
+                    <p class="mt-2 font-semibold">Landing Page</p>
+                </div>
+                <!-- 5 -->
+                <div class="w-1/3 text-center">
+                    <img src="template5.png" alt="Портфолио" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(4)" />
+                    <p class="mt-2 font-semibold">Портфолио</p>
+                </div>
+                <!-- 6 -->
+                <div class="w-1/3 text-center">
+                    <img src="template6.png" alt="Новостной сайт" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(5)" />
+                    <p class="mt-2 font-semibold">Новостной сайт</p>
+                </div>
+                <!-- 7 -->
+                <div class="w-1/3 text-center">
+                    <img src="template7.png" alt="Ресторан" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(6)" />
+                    <p class="mt-2 font-semibold">Ресторан</p>
+                </div>
+                <!-- 8 -->
+                <div class="w-1/3 text-center">
+                    <img src="template8.png" alt="Фотогалерея" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(7)" />
+                    <p class="mt-2 font-semibold">Фотогалерея</p>
+                </div>
+                <!-- 9 -->
+                <div class="w-1/3 text-center">
+                    <img src="template9.png" alt="Фитнес" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(8)" />
+                    <p class="mt-2 font-semibold">Фитнес</p>
+                </div>
+                <!-- 10 -->
+                <div class="w-1/3 text-center">
+                    <img src="template10.png" alt="Обучающий сайт" class="w-full h-auto cursor-pointer"
+                         onclick="applyTemplate(9)" />
+                    <p class="mt-2 font-semibold">Обучающий сайт</p>
                 </div>
             </div>
 
@@ -245,7 +287,6 @@
         </div>
     </nav>
 
-
     <div class="ml-48 mt-12 flex flex-col" style="width: calc(100vw - 12rem); height: calc(100vh - 3rem);">
         <!-- Панель переключения редакторов -->
         <div class="flex space-x-4 p-2 bg-gray-900">
@@ -261,11 +302,10 @@
             <div id="jsEditor" class="absolute inset-0 hidden overflow-auto"></div>
         </div>
     </div>
+</div>
 
 <!-- Подключаем JS конструктора -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
-
-
