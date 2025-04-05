@@ -600,3 +600,374 @@ $(document).ready(function(){
 
 
 
+
+<!--2-->
+<!--html-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poller+One&family=Raleway:wght@500&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <h1>STAR WARS</h1>
+    <h4 class="subtitle">May the Force be with you</h4>
+    <div class="flex_container">
+      <div class="main_series_container">
+        <div class="series_container">
+          <h2 class="name">Ahsoka <br><span class="year">(2023)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.0</span>/10</p>
+          <p class="price">€9.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">
+            The Mandalorian <br><span class="year">(2019-2023)</span>
+          </h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.7</span>/10</p>
+          <p class="price">€29.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">Andor <br><span class="year">(2022)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">8.4</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)" class="buy">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">Obi-Wan Kenobi <br><span class="year">(2022)</span></h2>
+          <p class="imdb">IMDb RATING: <span class="review">7.1</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+        <div class="series_container">
+          <h2 class="name">
+            The Book of Boba Fett <br><span class="year">(2021-2022)</span>
+          </h2>
+          <p class="imdb">IMDb RATING: <span class="review">7.2</span>/10</p>
+          <p class="price">€7.99</p>
+          <button onclick="addToBag(this)">ADD TO BAG</button>
+        </div>
+      </div>
+      <div class="cart">
+        <div class="added_items"></div>
+        <div class="total_container">
+          <p class="total">TOTAL PURCHASE</p>
+          <p class="added_total">€0</p>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
+<!--css-->
+html {
+    background-image: url("https://cdn.pixabay.com/photo/2019/12/23/11/08/space-4714327_1280.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  
+  body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  h1 {
+    margin: 40px 0 30px;
+    text-align: center;
+    font-family: "Poller One", cursive;
+    color: black;
+    font-size: 60px;
+    text-shadow: -1px 1px #FFE81F,
+            1px 1px 0 #FFE81F,
+           1px -1px 0 #FFE81F,
+          -1px -1px 0 #FFE81F;
+  }
+  
+  .subtitle {
+    color: #FFE81F;
+    text-align: center;
+    letter-spacing: 3px;
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+  
+  .flex_container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main_series_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .series_container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: #ffe6ff;
+    width: 17%;
+    border-radius: 12px;
+  }
+  
+  .name, .imdb, .price {
+    margin: 5px 0;
+  }
+  
+  .name {
+    font-size: 22px;
+  }
+  
+  .year,
+  .imdb {
+    color: #8c8c8c;
+    font-size: 14px;
+    font-weight: 200;
+  }
+  
+  .review {
+    font-size: 16px;
+    color: #ffe6ff;
+    font-weight:bold;
+  }
+  
+  .price, .added_price {
+    font-size: 1.5em;
+    font-weight: bolder;
+  }
+  
+  .added_price {
+    color: #ffe6ff;
+  }
+  
+  /* button */
+  .series_container > button {
+    background-color: rgb(255, 255, 255, 0.2);
+    color: #ffe6ff;
+    width: 100%;
+    border: none;
+    font-family: "Poller One", cursive;
+    font-size: 18px;
+    border-radius: 12px;
+    margin: 15px auto 0;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+  
+  .series_container > button:hover {
+  background-color:   rgb(255, 232, 31, 0.5);
+  }
+  
+  button:disabled {
+    background-color: rgb(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255, 0.3);
+    pointer-events: none; /*stops hover effect*/
+  } 
+  
+  .cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 450px;
+    margin: 50px auto 0;
+    color: #ffe6ff;
+    border-radius: 12px;
+    border: 2px solid rgb(255, 255, 255, 0.2);
+    font-family: "Roboto", sans-serif;
+  }
+  
+  .added_items {
+    margin-top: 7px;
+  }
+  
+  .single_added_item {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 12px;
+  }
+  
+  .price_del_container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .total_container {
+    margin: 0 12px 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .added_total, .total {
+    margin: 5px;
+    font-family: "Poller One", cursive;
+    color: #FFE81F;
+    font-size: 1.2em;
+  }
+  .added_total {
+    margin-right: 5px;
+  }
+  
+  .added_name, .added_price {
+    margin: 5px;
+    font-size: 1.2em;
+    white-space: nowrap;
+  }
+  
+  .delete {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    color: #8c8c8c;
+  }
+  
+  .delete:hover {
+    text-decoration: underline;
+  }
+  
+  hr {
+    width: 100%;
+    margin: 0 3px 9px;
+    border: none;
+    border-bottom: 1px dotted #8c8c8c;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .series_container {
+      width: 22%;
+      margin-bottom: 30px;
+    }
+  
+    .cart {
+      margin: 20px auto 0;
+    }
+  }
+  
+  @media screen and (max-width: 950px) {
+    .series_container {
+      width: 26%;
+      margin-bottom: 30px;
+    }
+  
+    .cart {
+      margin: 20px auto 0;
+    }
+  }
+  
+  @media screen and (max-width: 700px) {
+    .series_container {
+      width: 30%;
+      margin-bottom: 30px;
+    }
+  
+    .cart {
+      margin: 20px auto 0;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .series_container {
+      width: 35%;
+      margin-bottom: 30px;
+    }
+  
+    .cart {
+      margin: 20px auto 0;
+    }
+  }
+  
+  @media screen and (max-width: 481px) {
+    .series_container {
+      width: 45%;
+      margin-bottom: 30px;
+    }
+  
+    .cart {
+      margin: 20px auto 0;
+    }
+  
+    .cart {
+      width: 100%;
+    }
+  }
+
+
+
+
+  <!--js-->
+  let total = 0;
+
+function addToBag(item) {
+  let element = item.closest(".series_container");
+  let price = element.querySelector(".price").innerText;
+  let name = element.querySelector(".name").innerText;
+  let addedItems = document.querySelector(".added_items");
+  let addedTotal = document.querySelector(".added_total");
+
+  price = parseFloat(price.substring(1));
+
+  if (price > 0) {
+    total += price;
+
+    let clearName = name.replace(/[^a-zA-Z ]/g, ""); // ^ - not these characters
+
+    addedItems.innerHTML += `<div class="single_added_item">
+    <h2 class="added_name">${clearName}</h2><hr>
+    <div class="price_del_container"><p class="added_price">${price}</p>
+    <button onclick="deleteItem(this)" class="delete">Delete</button></div></div>`;
+
+    item.setAttribute("disabled", "disabled");
+
+    addedTotal.innerHTML = `€${parseFloat(total.toFixed(2))}`;
+  }
+}
+
+function deleteItem(row) {
+  let element = row.closest(".single_added_item");
+  let name = element.querySelector(".added_name").innerText;
+  let price = element.querySelector(".added_price").innerText;
+  let addedTotal = document.querySelector(".added_total");
+  let buttons = document.querySelectorAll(".series_container");
+
+  price = parseFloat(price);
+
+  total -= price;
+
+  addedTotal.innerHTML = `€${parseFloat(total.toFixed(2))}`;
+
+  element.remove();
+
+  buttons.forEach(function (button) {
+    let seriesName = button.querySelector(".series_container h2").innerText;
+    seriesName = seriesName.replace(/[^a-zA-Z ]/g, "");
+    if (seriesName === name) {
+      button
+        .querySelector(".series_container button")
+        .removeAttribute("disabled");
+    }
+  });
+}
+
+
+
+
+
+
+
+
