@@ -41,7 +41,7 @@
    ```
 3. Склонируйте репозиторий:
    ```bash
-   git clone 
+   git clone https://github.com/Valerijkk/webconstructor.git
    cd your-repo
    ```
 4. Установите зависимости:
